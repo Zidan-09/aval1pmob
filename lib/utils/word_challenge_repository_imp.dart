@@ -61,9 +61,22 @@ class WordChallengeRepositoryImpl implements WordChallengeRepository {
   }
 
   @override
-  Future<List<WordChallenge>> loadAll({bool forceReload = false}) async {
+  bool get isLoaded => _cache != null;
+
+  List<WordChallenge> _requireCache() {
+    final cached = _cache;
+    if (cached == null) {
+      throw StateError(
+        'Repository not initialized. Call await init() before querying.',
+      );
+    }
+    return cached;
+  }
+
+  @override
+  Future<void> init({bool forceReload = false}) async {
     if (_cache != null && !forceReload) {
-      return List.unmodifiable(_cache!);
+      return;
     }
     late final String raw;
     try {
@@ -74,14 +87,17 @@ class WordChallengeRepositoryImpl implements WordChallengeRepository {
         error,
       );
     }
-    final challenges = parseChallenges(raw);
-    _cache = challenges;
-    return List.unmodifiable(challenges);
+    _cache = parseChallenges(raw);
   }
 
   @override
-  Future<List<AnswerCategory>> loadCategories() async {
-    final challenges = await loadAll();
+  List<WordChallenge> loadAll() {
+    return List.unmodifiable(_requireCache());
+  }
+
+  @override
+  List<AnswerCategory> loadCategories() {
+    final challenges = _requireCache();
     final ordered = AnswerCategory.values.where(
       (category) => challenges.any((item) => item.category == category),
     );
@@ -89,8 +105,8 @@ class WordChallengeRepositoryImpl implements WordChallengeRepository {
   }
 
   @override
-  Future<List<Difficulty>> loadDifficulties() async {
-    final challenges = await loadAll();
+  List<Difficulty> loadDifficulties() {
+    final challenges = _requireCache();
     final ordered = Difficulty.values.where(
       (difficulty) => challenges.any((item) => item.difficulty == difficulty),
     );
@@ -98,11 +114,11 @@ class WordChallengeRepositoryImpl implements WordChallengeRepository {
   }
 
   @override
-  Future<List<WordChallenge>> findBy(
+  List<WordChallenge> findBy(
     AnswerCategory category,
     Difficulty difficulty,
-  ) async {
-    final challenges = await loadAll();
+  ) {
+    final challenges = _requireCache();
     final filtered = challenges
         .where(
           (item) => item.category == category && item.difficulty == difficulty,
@@ -112,11 +128,11 @@ class WordChallengeRepositoryImpl implements WordChallengeRepository {
   }
 
   @override
-  Future<WordChallenge> draw(
+  WordChallenge draw(
     AnswerCategory category,
     Difficulty difficulty,
-  ) async {
-    final candidates = await findBy(category, difficulty);
+  ) {
+    final candidates = findBy(category, difficulty);
     if (candidates.isEmpty) {
       throw NoAnswersAvailableException(
         'No answers for ${category.value}/${difficulty.value}.',

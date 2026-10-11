@@ -3,18 +3,22 @@ import 'package:aval1pmob/entities/difficulty.dart';
 import 'package:aval1pmob/entities/word_challenge.dart';
 
 abstract class WordChallengeRepository {
-  Future<List<WordChallenge>> loadAll({bool forceReload = false});
+  Future<void> init({bool forceReload = false});
 
-  Future<List<AnswerCategory>> loadCategories();
+  bool get isLoaded;
 
-  Future<List<Difficulty>> loadDifficulties();
+  List<WordChallenge> loadAll();
 
-  Future<List<WordChallenge>> findBy(
+  List<AnswerCategory> loadCategories();
+
+  List<Difficulty> loadDifficulties();
+
+  List<WordChallenge> findBy(
     AnswerCategory category,
     Difficulty difficulty,
   );
 
-  Future<WordChallenge> draw(AnswerCategory category, Difficulty difficulty);
+  WordChallenge draw(AnswerCategory category, Difficulty difficulty);
 
   int remainingCount(AnswerCategory category, Difficulty difficulty);
 

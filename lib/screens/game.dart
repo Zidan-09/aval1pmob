@@ -1,6 +1,7 @@
 import 'package:aval1pmob/components/game/virtual_keyboard.dart';
 import 'package:aval1pmob/entities/answer_category.dart';
 import 'package:aval1pmob/entities/difficulty.dart';
+import 'package:aval1pmob/entities/word_challenge.dart';
 import 'package:aval1pmob/services/word_challenge_repository.dart';
 import 'package:flutter/material.dart';
 
@@ -23,6 +24,8 @@ class GameScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final WordChallenge challenge = repository.draw(category, difficulty);
+
     return Scaffold(
       body: Container(
         width: double.infinity,

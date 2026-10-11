@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Jodo da Forca do Sonic.exe',
+      title: 'Jogo da Forca do Sonic.exe',
       theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
       home: HomeScreen(repository: repository),
     );

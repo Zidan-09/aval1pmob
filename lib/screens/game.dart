@@ -1,3 +1,4 @@
+import 'package:aval1pmob/components/game/virtual_keyboard.dart';
 import 'package:aval1pmob/entities/answer_category.dart';
 import 'package:aval1pmob/entities/difficulty.dart';
 import 'package:aval1pmob/services/word_challenge_repository.dart';
@@ -16,6 +17,10 @@ class GameScreen extends StatelessWidget {
     required this.difficulty,
   });
 
+  void onKeyPressed(String key) {
+    
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,11 +28,16 @@ class GameScreen extends StatelessWidget {
         width: double.infinity,
         height: double.infinity,
         color: Colors.amber,
-        child: Center(
-          child: Text("Hello World", style: TextStyle(
-            color: Colors.white,
-            fontSize: 25
-          ),),
+        child: Column(
+          children: [
+            Center(
+              child: Text("Hello World", style: TextStyle(
+                color: Colors.white,
+                fontSize: 25
+              ),),
+            ),
+            VirtualKeyboard(onKeyPressed: onKeyPressed)
+          ],
         ),
       ),
     );

@@ -65,7 +65,7 @@ class _GameScreenState extends State<GameScreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 16),
-                  child: TipsContainer(hint: challenge.hints.first),
+                  child: TipsContainer(challenge: challenge),
                 ),
                 VirtualKeyboard(onKeyPressed: onKeyPressed),
               ],

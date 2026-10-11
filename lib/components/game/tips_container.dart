@@ -1,15 +1,28 @@
+import 'package:aval1pmob/entities/word_challenge.dart';
 import 'package:flutter/material.dart';
 
 const Duration kTipsAutoCloseDuration = Duration(seconds: 5);
 
 const Color kTipsBackgroundColor = Color(0xFFD9D9D9);
+class TipsContainer extends StatefulWidget {
+  final WordChallenge challenge;
 
-class TipsContainer extends StatelessWidget {
-  final String hint;
+  const TipsContainer({super.key, required this.challenge});
 
-  const TipsContainer({super.key, required this.hint});
+  @override
+  State<TipsContainer> createState() => _TipsContainerState();
+}
 
-  void _showHint(BuildContext context) {
+class _TipsContainerState extends State<TipsContainer> {
+  late String tip;
+
+  void _showHint() {
+    if (!widget.challenge.hasTips) return;
+
+    setState(() {
+      tip = widget.challenge.consumeTip();
+    });
+
     showDialog<void>(
       context: context,
       builder: (dialogContext) {
@@ -20,7 +33,7 @@ class TipsContainer extends StatelessWidget {
         });
         return AlertDialog(
           title: const Text('Dica'),
-          content: Text(hint),
+          content: Text(tip),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(dialogContext).pop(),
@@ -34,6 +47,8 @@ class TipsContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool hasTips = widget.challenge.hasTips;
+
     return Align(
       alignment: Alignment.centerRight,
       child: Material(
@@ -41,11 +56,15 @@ class TipsContainer extends StatelessWidget {
         borderRadius: BorderRadius.circular(13),
         child: InkWell(
           borderRadius: BorderRadius.circular(13),
-          onTap: () => _showHint(context),
-          child: const SizedBox(
+          onTap: hasTips ? _showHint : null,
+          child: SizedBox(
             width: 47,
             height: 47,
-            child: Icon(Icons.lightbulb_outline, color: Colors.black, size: 26),
+            child: Icon(
+              Icons.lightbulb_outline,
+              color: hasTips ? Colors.black : Colors.black38,
+              size: 26,
+            ),
           ),
         ),
       ),

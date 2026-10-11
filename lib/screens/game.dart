@@ -1,3 +1,4 @@
+import 'package:aval1pmob/components/game/game_top_bar.dart';
 import 'package:aval1pmob/components/game/virtual_keyboard.dart';
 import 'package:aval1pmob/entities/answer_category.dart';
 import 'package:aval1pmob/entities/difficulty.dart';
@@ -31,16 +32,27 @@ class GameScreen extends StatelessWidget {
         width: double.infinity,
         height: double.infinity,
         color: Colors.amber,
-        child: Column(
-          children: [
-            Center(
-              child: Text("Hello World", style: TextStyle(
-                color: Colors.white,
-                fontSize: 25
-              ),),
-            ),
-            VirtualKeyboard(onKeyPressed: onKeyPressed)
-          ],
+        child: SafeArea(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+                child: GameTopBar(
+                  category: category,
+                  difficulty: difficulty,
+                  // TODO: implement menu behavior (session stats / back to home).
+                  onMenuPressed: null,
+                ),
+              ),
+              Center(
+                child: Text("Hello World", style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 25
+                ),),
+              ),
+              VirtualKeyboard(onKeyPressed: onKeyPressed)
+            ],
+          ),
         ),
       ),
     );

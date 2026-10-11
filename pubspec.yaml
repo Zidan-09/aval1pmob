@@ -61,8 +61,7 @@ flutter:
     - lib/assets/
     - lib/assets/images/
     - lib/assets/data/
-    - lib/assets/sounds/
-
+  #  - lib/assets/sounds/
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

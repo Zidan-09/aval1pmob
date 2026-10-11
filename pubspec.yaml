@@ -59,6 +59,7 @@ flutter:
 
   assets:
     - lib/assets/data/hangman.json
+    - lib/assets/data/images/Gemini_Generated_Image_eyj0w5eyj0w5eyj0.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

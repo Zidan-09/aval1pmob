@@ -1,6 +1,4 @@
-import 'package:aval1pmob/entities/answer_category.dart';
-import 'package:aval1pmob/entities/difficulty.dart';
-import 'package:aval1pmob/screens/game.dart';
+import 'package:aval1pmob/screens/home.dart';
 import 'package:aval1pmob/services/word_challenge_repository.dart';
 import 'package:aval1pmob/utils/word_challenge_repository_imp.dart';
 import 'package:flutter/material.dart';
@@ -19,13 +17,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Forca',
+      title: 'Jodo da Forca do Sonic.exe',
       theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
-      home: GameScreen(
-        repository: repository,
-        category: AnswerCategory.animals,
-        difficulty: Difficulty.easy,
-      ),
+      home: HomeScreen(repository: repository),
     );
   }
 }

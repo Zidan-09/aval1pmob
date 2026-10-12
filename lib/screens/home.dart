@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String backgroundAsset = 'lib/assets/images/background.png';
+  static const String startButtonAsset = 'lib/assets/images/button-start.png';
 
   final WordChallengeRepository repository;
   final PlayerStats playerStats;
@@ -24,15 +25,40 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _pulse;
+  late final Animation<double> _scale;
+
   @override
   void initState() {
     super.initState();
+    _pulse = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 100),
+    );
+    _scale = Tween<double>(
+      begin: 1.0,
+      end: 0.9,
+    ).animate(CurvedAnimation(parent: _pulse, curve: Curves.easeInOut));
     if (widget.openSetupOnStart) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) _showSetupDialog(context);
       });
     }
+  }
+
+  @override
+  void dispose() {
+    _pulse.dispose();
+    super.dispose();
+  }
+
+  Future<void> _onStartTap() async {
+    if (_pulse.isAnimating) return;
+    await _pulse.forward();
+    await _pulse.reverse();
+    if (mounted) _showSetupDialog(context);
   }
 
   void _showSetupDialog(BuildContext context) {
@@ -82,19 +108,20 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: const EdgeInsets.all(24),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    ElevatedButton(
-                      onPressed: () => _showSetupDialog(context),
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.black,
-                        minimumSize: const Size.fromHeight(72),
-                        textStyle: const TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
+                    InkWell(
+                      onTap: _onStartTap,
+                      borderRadius: BorderRadius.circular(24),
+                      child: ScaleTransition(
+                        scale: _scale,
+                        child: Image.asset(
+                          HomeScreen.startButtonAsset,
+                          width: 300,
+                          fit: BoxFit.contain,
+                          semanticLabel: 'Começar',
                         ),
                       ),
-                      child: const Text('Começar'),
                     ),
                     const SizedBox(height: 32),
                   ],

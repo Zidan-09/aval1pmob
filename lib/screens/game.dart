@@ -3,12 +3,14 @@ import 'package:aval1pmob/components/game/tips_container.dart';
 import 'package:aval1pmob/components/game/virtual_keyboard.dart';
 import 'package:aval1pmob/entities/answer_category.dart';
 import 'package:aval1pmob/entities/difficulty.dart';
+import 'package:aval1pmob/entities/player_stats.dart';
 import 'package:aval1pmob/entities/word_challenge.dart';
 import 'package:aval1pmob/services/word_challenge_repository.dart';
 import 'package:flutter/material.dart';
 
 class GameScreen extends StatefulWidget {
   final WordChallengeRepository repository;
+  final PlayerStats playerStats;
 
   final AnswerCategory category;
   final Difficulty difficulty;
@@ -16,6 +18,7 @@ class GameScreen extends StatefulWidget {
   const GameScreen({
     super.key,
     required this.repository,
+    required this.playerStats,
     required this.category,
     required this.difficulty,
   });

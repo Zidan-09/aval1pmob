@@ -1,13 +1,13 @@
 import 'package:aval1pmob/entities/answer_category.dart';
 import 'package:aval1pmob/entities/difficulty.dart';
-import 'package:aval1pmob/screens/game.dart';
 import 'package:aval1pmob/services/word_challenge_repository.dart';
 import 'package:flutter/material.dart';
 
 class SetupGameDialog extends StatefulWidget {
   final WordChallengeRepository repository;
+  final void Function(BuildContext, AnswerCategory, Difficulty) startGame;
 
-  const SetupGameDialog({super.key, required this.repository});
+  const SetupGameDialog({super.key, required this.repository, required this.startGame});
 
   @override
   State<SetupGameDialog> createState() => _SetupGameDialogState();
@@ -16,19 +16,6 @@ class SetupGameDialog extends StatefulWidget {
 class _SetupGameDialogState extends State<SetupGameDialog> {
   AnswerCategory selectedCategory = AnswerCategory.animals;
   Difficulty selectedDifficulty = Difficulty.easy;
-
-  void _startGame() {
-    Navigator.of(context).pop();
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (context) => GameScreen(
-          repository: widget.repository,
-          category: selectedCategory,
-          difficulty: selectedDifficulty,
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +65,14 @@ class _SetupGameDialogState extends State<SetupGameDialog> {
           onPressed: () => Navigator.of(context).pop(),
           child: const Text('Cancelar'),
         ),
-        ElevatedButton(onPressed: _startGame, child: const Text('Jogar')),
+        ElevatedButton(
+          onPressed: () => widget.startGame(
+            context,
+            selectedCategory,
+            selectedDifficulty,
+          ),
+          child: const Text('Jogar'),
+        ),
       ],
     );
   }

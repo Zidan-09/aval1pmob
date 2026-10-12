@@ -48,20 +48,33 @@ class _LetterTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (structural) {
+      return Container(
+        width: 30,
+        height: 46,
+        alignment: Alignment.center,
+        child: Text(
+          character,
+          style: const TextStyle(
+            color: Colors.white70,
+            fontSize: 26,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      );
+    }
     return Container(
       width: 30,
       height: 46,
       alignment: Alignment.center,
-      decoration: BoxDecoration(
-        border: structural
-            ? null
-            : const Border(bottom: BorderSide(color: Colors.white, width: 3)),
+      decoration: const BoxDecoration(
+        border: Border(bottom: BorderSide(color: Colors.white, width: 3)),
       ),
       child: Text(
-        character,
-        style: TextStyle(
-          color: structural ? Colors.white70 : Colors.white,
-          fontSize: structural ? 26 : 28,
+        revealed ? character : '',
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 28,
           fontWeight: FontWeight.bold,
         ),
       ),

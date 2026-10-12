@@ -7,6 +7,7 @@ import 'package:aval1pmob/entities/answer_category.dart';
 import 'package:aval1pmob/entities/difficulty.dart';
 import 'package:aval1pmob/entities/game_round.dart';
 import 'package:aval1pmob/entities/player_stats.dart';
+import 'package:aval1pmob/screens/home.dart';
 import 'package:aval1pmob/services/word_challenge_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:aval1pmob/components/game/round_result_dialog.dart';
@@ -78,7 +79,6 @@ class _GameScreenState extends State<GameScreen> {
   }
 
   void _showResult() {
-    final won = round.won;
     showDialog<void>(
       context: context,
       barrierDismissible: false,
@@ -96,8 +96,15 @@ class _GameScreenState extends State<GameScreen> {
         },
         onChangeSelection: () {
           Navigator.of(dialogContext).pop();
-          Navigator.of(context)
-              .pop(); // volta p/ Home, lá você reabre o SetupGameDialog
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute<void>(
+              builder: (context) => HomeScreen(
+                repository: widget.repository,
+                playerStats: widget.playerStats,
+                openSetupOnStart: true,
+              ),
+            ),
+          );
         },
         onGoHome: () {
           Navigator.of(dialogContext).pop();
@@ -163,7 +170,7 @@ class _GameScreenState extends State<GameScreen> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          HangmanFigure(errors: round.errors),
+                          HangmanFigure(errors: round.errors, size: 320),
                           const SizedBox(height: 8),
                           Text(
                             'Erros: ${round.errors}/${GameRound.maxErrors}',

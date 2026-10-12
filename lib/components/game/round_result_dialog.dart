@@ -44,7 +44,7 @@ class RoundResultDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Center(child: HangmanFigure(errors: errors)),
+          Center(child: HangmanFigure(errors: errors, size: 140)),
           const SizedBox(height: 12),
           Container(
             width: double.infinity,
@@ -132,59 +132,64 @@ class RoundResultDialog extends StatelessWidget {
         ],
       ),
 
-     actionsAlignment: MainAxisAlignment.center,
-actions: [
-  SizedBox(
-    width: double.infinity,
-    child: ElevatedButton.icon(
-      onPressed: onNewRound,
-      icon: const Icon(Icons.refresh, size: 18),
-      label: const Text('Nova rodada',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-      style: ElevatedButton.styleFrom(
-        backgroundColor: const Color(0xFFFFC400),
-        foregroundColor: Colors.black,
-        minimumSize: const Size.fromHeight(52),
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(28)),
-      ),
-    ),
-  ),
-  const SizedBox(height: 12),
-  Row(
-    children: [
-      Expanded(
-        child: OutlinedButton.icon(
-          onPressed: onGoHome,
-          icon: const Icon(Icons.home_outlined, size: 16),
-          label: const Text('Início'),
-          style: OutlinedButton.styleFrom(
-            foregroundColor: Colors.white,
-            side: const BorderSide(color: Colors.white24),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(28)),
-            minimumSize: const Size.fromHeight(44),
+      actionsAlignment: MainAxisAlignment.center,
+      actions: [
+        SizedBox(
+          width: double.infinity,
+          child: ElevatedButton.icon(
+            onPressed: onNewRound,
+            icon: const Icon(Icons.refresh, size: 18),
+            label: const Text(
+              'Nova rodada',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFFFFC400),
+              foregroundColor: Colors.black,
+              minimumSize: const Size.fromHeight(52),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(28),
+              ),
+            ),
           ),
         ),
-      ),
-      const SizedBox(width: 8),
-      Expanded(
-        child: OutlinedButton.icon(
-          onPressed: onChangeSelection,
-          icon: const Icon(Icons.swap_horiz, size: 16),
-          label: const Text('Trocar'),
-          style: OutlinedButton.styleFrom(
-            foregroundColor: Colors.white,
-            side: const BorderSide(color: Colors.white24),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(28)),
-            minimumSize: const Size.fromHeight(44),
-          ),
+        const SizedBox(height: 12),
+        Row(
+          children: [
+            Expanded(
+              child: OutlinedButton.icon(
+                onPressed: onGoHome,
+                icon: const Icon(Icons.home_outlined, size: 16),
+                label: const Text('Início'),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  side: const BorderSide(color: Colors.white24),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(28),
+                  ),
+                  minimumSize: const Size.fromHeight(44),
+                ),
+              ),
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: OutlinedButton.icon(
+                onPressed: onChangeSelection,
+                icon: const Icon(Icons.swap_horiz, size: 16),
+                label: const Text('Trocar'),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  side: const BorderSide(color: Colors.white24),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(28),
+                  ),
+                  minimumSize: const Size.fromHeight(44),
+                ),
+              ),
+            ),
+          ],
         ),
-      ),
-    ],
-  ),
-],
+      ],
     );
   }
 }

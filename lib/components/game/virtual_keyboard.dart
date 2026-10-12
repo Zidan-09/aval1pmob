@@ -23,30 +23,36 @@ class VirtualKeyboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: keyboardRows.map((rowKeys) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 4.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: rowKeys.map((character) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 3.0),
-                child: SizedBox(
-                  width: 36,
-                  height: 48,
-                  child: KeyboardKey(
-                    character: character,
-                    active: enabled && !usedLetters.contains(character),
-                    onPressed: () => onKeyPressed(character),
-                  ),
-                ),
-              );
-            }).toList(),
-          ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final keyWidth = ((constraints.maxWidth - 60) / 10).clamp(28.0, 36.0);
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: keyboardRows.map((rowKeys) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: rowKeys.map((character) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 3.0),
+                    child: SizedBox(
+                      width: keyWidth,
+                      height: 48,
+                      child: KeyboardKey(
+                        character: character,
+                        active: enabled && !usedLetters.contains(character),
+                        onPressed: () => onKeyPressed(character),
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+            );
+          }).toList(),
         );
-      }).toList(),
+      },
     );
   }
 }

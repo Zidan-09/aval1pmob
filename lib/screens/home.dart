@@ -6,23 +6,40 @@ import 'package:aval1pmob/screens/game.dart';
 import 'package:aval1pmob/services/word_challenge_repository.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   static const String backgroundAsset = 'lib/assets/images/background.png';
 
   final WordChallengeRepository repository;
   final PlayerStats playerStats;
+  final bool openSetupOnStart;
 
   const HomeScreen({
     super.key,
     required this.repository,
     required this.playerStats,
+    this.openSetupOnStart = false,
   });
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    if (widget.openSetupOnStart) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _showSetupDialog(context);
+      });
+    }
+  }
 
   void _showSetupDialog(BuildContext context) {
     showDialog<void>(
       context: context,
       builder: (dialogContext) =>
-          SetupGameDialog(repository: repository, startGame: _startGame),
+          SetupGameDialog(repository: widget.repository, startGame: _startGame),
     );
   }
 
@@ -31,7 +48,7 @@ class HomeScreen extends StatelessWidget {
     AnswerCategory category,
     Difficulty difficulty,
   ) {
-    if (repository.remainingCount(category, difficulty) == 0) {
+    if (widget.repository.remainingCount(category, difficulty) == 0) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Todas as respostas dessa combinação já foram usadas.'),
@@ -43,8 +60,8 @@ class HomeScreen extends StatelessWidget {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
         builder: (context) => GameScreen(
-          repository: repository,
-          playerStats: playerStats,
+          repository: widget.repository,
+          playerStats: widget.playerStats,
           category: category,
           difficulty: difficulty,
         ),
@@ -54,12 +71,11 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("$playerStats");
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
         children: [
-          Image.asset(backgroundAsset, fit: BoxFit.cover),
+          Image.asset(HomeScreen.backgroundAsset, fit: BoxFit.cover),
           SafeArea(
             child: Center(
               child: Padding(
@@ -73,7 +89,10 @@ class HomeScreen extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                         foregroundColor: Colors.black,
                         minimumSize: const Size.fromHeight(72),
-                        textStyle: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                        textStyle: const TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       child: const Text('Começar'),
                     ),

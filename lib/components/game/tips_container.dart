@@ -59,20 +59,16 @@ class _TipsContainerState extends State<TipsContainer> {
     final bool hasTips = widget.challenge.hasTips;
     return Align(
       alignment: Alignment.centerRight,
-      child: Material(
-        color: kTipsBackgroundColor,
-        borderRadius: BorderRadius.circular(13),
-        child: InkWell(
-          borderRadius: BorderRadius.circular(13),
-          onTap: hasTips ? _showHint : null,
-          child: SizedBox(
+      child: InkWell(
+        onTap: hasTips ? _showHint : null,
+        child: Opacity(
+          opacity: hasTips ? 1.0 : 0.4,
+          child: Image.asset(
+            'lib/assets/images/dailog.png',
             width: 47,
             height: 47,
-            child: Icon(
-              Icons.lightbulb_outline,
-              color: hasTips ? Colors.black : Colors.black38,
-              size: 26,
-            ),
+            fit: BoxFit.contain,
+            semanticLabel: 'Dica',
           ),
         ),
       ),

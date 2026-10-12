@@ -17,13 +17,59 @@ class GameTopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        Expanded(child: _InfoCard(label: category.labelPt)),
+        Flexible(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 130),
+            child: _LabeledCard(
+              title: 'Categoria',
+              child: _InfoCard(label: category.labelPt),
+            ),
+          ),
+        ),
         const SizedBox(width: 8),
-        Expanded(child: _InfoCard(label: difficulty.labelPt)),
+        Flexible(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 130),
+            child: _LabeledCard(
+              title: 'Dificuldade',
+              child: _InfoCard(label: difficulty.labelPt),
+            ),
+          ),
+        ),
         const SizedBox(width: 8),
-        _MenuButton(onPressed: onMenuPressed),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 2),
+          child: _MenuButton(onPressed: onMenuPressed),
+        ),
+      ],
+    );
+  }
+}
+
+class _LabeledCard extends StatelessWidget {
+  final String title;
+  final Widget child;
+
+  const _LabeledCard({required this.title, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          title,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 4),
+        child,
       ],
     );
   }
@@ -36,22 +82,27 @@ class _InfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 47,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: const Color(0xFFD9D9D9),
-        borderRadius: BorderRadius.circular(13),
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      child: Text(
-        label,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        textAlign: TextAlign.center,
-        style: const TextStyle(
-          color: Colors.black,
-          fontSize: 13,
+    return AspectRatio(
+      aspectRatio: 788 / 317,
+      child: Container(
+        alignment: Alignment.center,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('lib/assets/images/mode.png'),
+            fit: BoxFit.fill,
+          ),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        child: Text(
+          label,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 13,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );
@@ -70,18 +121,15 @@ class _MenuButton extends StatelessWidget {
       borderRadius: BorderRadius.circular(13),
       child: InkWell(
         borderRadius: BorderRadius.circular(13),
-        onTap: onPressed ??
+        onTap:
+            onPressed ??
             () {
               // TODO: open session stats / back to home. Not implemented yet.
             },
         child: const SizedBox(
           width: 47,
           height: 47,
-          child: Icon(
-            Icons.menu,
-            color: Colors.black,
-            size: 28,
-          ),
+          child: Icon(Icons.menu, color: Colors.black, size: 28),
         ),
       ),
     );

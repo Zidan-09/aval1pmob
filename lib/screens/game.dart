@@ -1,5 +1,6 @@
 import 'package:aval1pmob/components/game/answer_display.dart';
 import 'package:aval1pmob/components/game/game_top_bar.dart';
+import 'package:aval1pmob/components/game/hangman_figure.dart';
 import 'package:aval1pmob/components/game/tips_container.dart';
 import 'package:aval1pmob/components/game/virtual_keyboard.dart';
 import 'package:aval1pmob/entities/answer_category.dart';
@@ -74,7 +75,8 @@ class _GameScreenState extends State<GameScreen> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          // TODO item 1: trocar pelo HangmanFigure(round.errors).
+                          HangmanFigure(errors: round.errors),
+                          const SizedBox(height: 8),
                           Text(
                             'Erros: ${round.errors}/${GameRound.maxErrors}',
                             style: const TextStyle(

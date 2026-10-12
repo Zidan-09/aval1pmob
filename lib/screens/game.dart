@@ -11,6 +11,8 @@ import 'package:aval1pmob/services/word_challenge_repository.dart';
 import 'package:flutter/material.dart';
 
 class GameScreen extends StatefulWidget {
+  static const String backgroundAsset = 'lib/assets/images/background2.png';
+
   final WordChallengeRepository repository;
   final PlayerStats playerStats;
 
@@ -139,7 +141,12 @@ class _GameScreenState extends State<GameScreen> {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        color: Color.fromARGB(255, 5, 4, 5),
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(GameScreen.backgroundAsset),
+            fit: BoxFit.cover,
+          ),
+        ),
         child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(20.0),

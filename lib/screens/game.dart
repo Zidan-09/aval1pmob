@@ -1,10 +1,11 @@
+import 'package:aval1pmob/components/game/answer_display.dart';
 import 'package:aval1pmob/components/game/game_top_bar.dart';
 import 'package:aval1pmob/components/game/tips_container.dart';
 import 'package:aval1pmob/components/game/virtual_keyboard.dart';
 import 'package:aval1pmob/entities/answer_category.dart';
 import 'package:aval1pmob/entities/difficulty.dart';
+import 'package:aval1pmob/entities/game_round.dart';
 import 'package:aval1pmob/entities/player_stats.dart';
-import 'package:aval1pmob/entities/word_challenge.dart';
 import 'package:aval1pmob/services/word_challenge_repository.dart';
 import 'package:flutter/material.dart';
 
@@ -28,15 +29,22 @@ class GameScreen extends StatefulWidget {
 }
 
 class _GameScreenState extends State<GameScreen> {
-  late final WordChallenge challenge;
+  late final GameRound round;
 
   @override
   void initState() {
     super.initState();
-    challenge = widget.repository.draw(widget.category, widget.difficulty);
+    round = GameRound(
+      challenge: widget.repository.draw(widget.category, widget.difficulty),
+    );
   }
 
-  void onKeyPressed(String key) {}
+  void onKeyPressed(String key) {
+    final outcome = round.guess(key);
+    if (outcome == GuessOutcome.hit || outcome == GuessOutcome.miss) {
+      setState(() {});
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,17 +68,21 @@ class _GameScreenState extends State<GameScreen> {
                     onMenuPressed: null,
                   ),
                 ),
-                const Center(
-                  child: Text(
-                    "Hello World",
-                    style: TextStyle(color: Colors.white, fontSize: 25),
+                Expanded(
+                  child: Center(
+                    child: SingleChildScrollView(
+                      child: AnswerDisplay(round: round),
+                    ),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 16),
-                  child: TipsContainer(challenge: challenge),
+                  child: TipsContainer(challenge: round.challenge),
                 ),
-                VirtualKeyboard(onKeyPressed: onKeyPressed),
+                VirtualKeyboard(
+                  usedLetters: round.guessedLetters,
+                  onKeyPressed: onKeyPressed,
+                ),
               ],
             ),
           ),

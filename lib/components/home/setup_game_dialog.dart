@@ -7,18 +7,39 @@ class SetupGameDialog extends StatefulWidget {
   final WordChallengeRepository repository;
   final void Function(BuildContext, AnswerCategory, Difficulty) startGame;
 
-  const SetupGameDialog({super.key, required this.repository, required this.startGame});
+  const SetupGameDialog({
+    super.key,
+    required this.repository,
+    required this.startGame,
+  });
 
   @override
   State<SetupGameDialog> createState() => _SetupGameDialogState();
 }
 
 class _SetupGameDialogState extends State<SetupGameDialog> {
-  AnswerCategory selectedCategory = AnswerCategory.animals;
-  Difficulty selectedDifficulty = Difficulty.easy;
+  late final List<AnswerCategory> categories;
+  late final List<Difficulty> difficulties;
+  late AnswerCategory selectedCategory;
+  late Difficulty selectedDifficulty;
+
+  @override
+  void initState() {
+    super.initState();
+    categories = widget.repository.loadCategories();
+    difficulties = widget.repository.loadDifficulties();
+    selectedCategory = categories.first;
+    selectedDifficulty = difficulties.first;
+  }
 
   @override
   Widget build(BuildContext context) {
+    final remaining = widget.repository.remainingCount(
+      selectedCategory,
+      selectedDifficulty,
+    );
+    final canPlay = remaining > 0;
+
     return AlertDialog(
       title: const Text('Nova partida'),
       content: SingleChildScrollView(
@@ -31,7 +52,7 @@ class _SetupGameDialogState extends State<SetupGameDialog> {
             Wrap(
               spacing: 8,
               runSpacing: 8,
-              children: AnswerCategory.values.map((category) {
+              children: categories.map((category) {
                 return ChoiceChip(
                   label: Text(category.labelPt),
                   selected: selectedCategory == category,
@@ -47,7 +68,7 @@ class _SetupGameDialogState extends State<SetupGameDialog> {
             Wrap(
               spacing: 8,
               runSpacing: 8,
-              children: Difficulty.values.map((difficulty) {
+              children: difficulties.map((difficulty) {
                 return ChoiceChip(
                   label: Text(difficulty.labelPt),
                   selected: selectedDifficulty == difficulty,
@@ -56,6 +77,19 @@ class _SetupGameDialogState extends State<SetupGameDialog> {
                   },
                 );
               }).toList(),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'Seleção: ${selectedCategory.labelPt} • ${selectedDifficulty.labelPt}',
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              canPlay
+                  ? (remaining == 1
+                        ? 'Resta 1 palavra'
+                        : 'Restam $remaining palavras')
+                  : 'Todas as respostas dessa combinação já foram usadas.',
             ),
           ],
         ),
@@ -66,11 +100,13 @@ class _SetupGameDialogState extends State<SetupGameDialog> {
           child: const Text('Cancelar'),
         ),
         ElevatedButton(
-          onPressed: () => widget.startGame(
-            context,
-            selectedCategory,
-            selectedDifficulty,
-          ),
+          onPressed: canPlay
+              ? () => widget.startGame(
+                  context,
+                  selectedCategory,
+                  selectedDifficulty,
+                )
+              : null,
           child: const Text('Jogar'),
         ),
       ],

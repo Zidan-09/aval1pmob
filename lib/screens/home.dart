@@ -7,22 +7,38 @@ import 'package:aval1pmob/services/word_challenge_repository.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
-  static const String backgroundAsset =
-      'lib/assets/images/background.png';
+  static const String backgroundAsset = 'lib/assets/images/background.png';
 
   final WordChallengeRepository repository;
   final PlayerStats playerStats;
 
-  const HomeScreen({super.key, required this.repository, required this.playerStats});
+  const HomeScreen({
+    super.key,
+    required this.repository,
+    required this.playerStats,
+  });
 
   void _showSetupDialog(BuildContext context) {
     showDialog<void>(
       context: context,
-      builder: (dialogContext) => SetupGameDialog(repository: repository, startGame: _startGame,),
+      builder: (dialogContext) =>
+          SetupGameDialog(repository: repository, startGame: _startGame),
     );
   }
 
-  void _startGame(BuildContext context, AnswerCategory category, Difficulty difficulty) {
+  void _startGame(
+    BuildContext context,
+    AnswerCategory category,
+    Difficulty difficulty,
+  ) {
+    if (repository.remainingCount(category, difficulty) == 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Todas as respostas dessa combinação já foram usadas.'),
+        ),
+      );
+      return;
+    }
     Navigator.of(context).pop();
     Navigator.of(context).push(
       MaterialPageRoute<void>(
@@ -55,8 +71,9 @@ class HomeScreen extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () => _showSetupDialog(context),
                       style: ElevatedButton.styleFrom(
-                        minimumSize: const Size.fromHeight(52),
-                        textStyle: const TextStyle(fontSize: 20),
+                        foregroundColor: Colors.black,
+                        minimumSize: const Size.fromHeight(72),
+                        textStyle: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                       ),
                       child: const Text('Começar'),
                     ),

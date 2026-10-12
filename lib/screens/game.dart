@@ -30,7 +30,9 @@ class GameScreen extends StatefulWidget {
 }
 
 class _GameScreenState extends State<GameScreen> {
-  late final GameRound round;
+  late GameRound round;
+  bool hintUsed = false;
+  bool countedEnd = false;
 
   @override
   void initState() {
@@ -42,9 +44,93 @@ class _GameScreenState extends State<GameScreen> {
 
   void onKeyPressed(String key) {
     final outcome = round.guess(key);
-    if (outcome == GuessOutcome.hit || outcome == GuessOutcome.miss) {
-      setState(() {});
+    if (outcome != GuessOutcome.hit && outcome != GuessOutcome.miss) return;
+    setState(() {});
+    _finishRoundIfNeeded();
+  }
+
+  void onHintUsed() {
+    if (hintUsed) return;
+    hintUsed = true;
+    widget.playerStats.incrementTipsUseds();
+  }
+
+  void _finishRoundIfNeeded() {
+    if (countedEnd || !round.isFinished) return;
+    countedEnd = true;
+
+    final stats = widget.playerStats;
+    stats.incrementGames();
+    if (round.won) {
+      stats.incrementWins();
+    } else {
+      stats.incrementLoses();
+      round.revealAll = true;
     }
+    stats.addErrors(round.errors);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _showResult();
+    });
+  }
+
+  void _showResult() {
+    final won = round.won;
+    showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(won ? 'Você venceu!' : 'Você perdeu'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Resposta: ${round.challenge.answer}'),
+            Text('Erros: ${round.errors}/${GameRound.maxErrors}'),
+            Text(hintUsed ? 'Dica: sim' : 'Dica: não'),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(dialogContext).pop();
+              Navigator.of(context).pop();
+            },
+            child: const Text('Voltar'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(dialogContext).pop();
+              _startNewRound();
+            },
+            child: const Text('Nova rodada'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _startNewRound() {
+    late final GameRound next;
+    try {
+      next = GameRound(
+        challenge: widget.repository.draw(widget.category, widget.difficulty),
+      );
+    } on StateError {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Todas as respostas dessa combinação já foram usadas.'),
+        ),
+      );
+      Navigator.of(context).pop();
+      return;
+    }
+    setState(() {
+      round = next;
+      hintUsed = false;
+      countedEnd = false;
+    });
   }
 
   @override
@@ -94,10 +180,15 @@ class _GameScreenState extends State<GameScreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 16),
-                  child: TipsContainer(challenge: round.challenge),
+                  child: TipsContainer(
+                    key: ValueKey(round.challenge.answer),
+                    challenge: round.challenge,
+                    onHintUsed: onHintUsed,
+                  ),
                 ),
                 VirtualKeyboard(
                   usedLetters: round.guessedLetters,
+                  enabled: !round.isFinished,
                   onKeyPressed: onKeyPressed,
                 ),
               ],

@@ -6,10 +6,13 @@ class VirtualKeyboard extends StatelessWidget {
 
   final Set<String> usedLetters;
 
+  final bool enabled;
+
   const VirtualKeyboard({
     super.key,
     required this.onKeyPressed,
     this.usedLetters = const {},
+    this.enabled = true,
   });
 
   static const List<List<String>> keyboardRows = [
@@ -35,7 +38,7 @@ class VirtualKeyboard extends StatelessWidget {
                   height: 48,
                   child: KeyboardKey(
                     character: character,
-                    active: !usedLetters.contains(character),
+                    active: enabled && !usedLetters.contains(character),
                     onPressed: () => onKeyPressed(character),
                   ),
                 ),

@@ -4,24 +4,33 @@ import 'package:flutter/material.dart';
 const Duration kTipsAutoCloseDuration = Duration(seconds: 5);
 
 const Color kTipsBackgroundColor = Color(0xFFD9D9D9);
+
 class TipsContainer extends StatefulWidget {
   final WordChallenge challenge;
+  final VoidCallback? onHintUsed;
 
-  const TipsContainer({super.key, required this.challenge});
+  const TipsContainer({super.key, required this.challenge, this.onHintUsed});
 
   @override
   State<TipsContainer> createState() => _TipsContainerState();
 }
 
 class _TipsContainerState extends State<TipsContainer> {
-  late String tip;
+  int shownIndex = 0;
+  bool usedThisRound = false;
 
   void _showHint() {
     if (!widget.challenge.hasTips) return;
 
-    setState(() {
-      tip = widget.challenge.consumeTip();
-    });
+    final tip = widget.challenge.hints[shownIndex];
+    if (shownIndex < widget.challenge.hints.length - 1) {
+      shownIndex++;
+    }
+
+    if (!usedThisRound) {
+      usedThisRound = true;
+      widget.onHintUsed?.call();
+    }
 
     showDialog<void>(
       context: context,
@@ -48,7 +57,6 @@ class _TipsContainerState extends State<TipsContainer> {
   @override
   Widget build(BuildContext context) {
     final bool hasTips = widget.challenge.hasTips;
-
     return Align(
       alignment: Alignment.centerRight,
       child: Material(

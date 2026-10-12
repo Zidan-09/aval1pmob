@@ -21,6 +21,10 @@ class PlayerStats {
     errors++;
   }
 
+  void addErrors(int count) {
+    errors += count;
+  }
+
   void incrementTipsUseds() {
     tipsUseds++;
   }

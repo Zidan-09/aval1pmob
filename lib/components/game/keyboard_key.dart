@@ -18,14 +18,14 @@ class KeyboardKey extends StatelessWidget {
           borderRadius: BorderRadius.circular(5),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 1),
-        disabledBackgroundColor: const Color.fromARGB(50, 90, 77, 83),
+        disabledBackgroundColor: const Color.fromARGB(10, 90, 77, 83),
         disabledForegroundColor: Colors.transparent
       ),
       child: Text(character,
         style: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,
-          color: active ? Colors.white : Colors.amber,
+          color: active ? Colors.white : Colors.black,
         ),
       )
     );

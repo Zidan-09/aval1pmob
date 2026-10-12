@@ -71,7 +71,22 @@ class _GameScreenState extends State<GameScreen> {
                 Expanded(
                   child: Center(
                     child: SingleChildScrollView(
-                      child: AnswerDisplay(round: round),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          // TODO item 1: trocar pelo HangmanFigure(round.errors).
+                          Text(
+                            'Erros: ${round.errors}/${GameRound.maxErrors}',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          AnswerDisplay(round: round),
+                        ],
+                      ),
                     ),
                   ),
                 ),

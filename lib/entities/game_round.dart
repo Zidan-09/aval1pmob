@@ -1,14 +1,16 @@
 import 'package:aval1pmob/entities/word_challenge.dart';
 import 'package:aval1pmob/utils/text_normalizer.dart';
 
-enum GuessOutcome { hit, miss, repeated, invalid } 
-
+enum GuessOutcome { hit, miss, repeated, invalid }
 
 class GameRound {
+  static const int maxErrors = 6;
+
   final WordChallenge challenge;
 
-  
   final Set<String> guessedLetters;
+
+  int errors = 0;
 
   GameRound({required this.challenge, Set<String>? guessed})
     : guessedLetters = {...?guessed};
@@ -30,8 +32,7 @@ class GameRound {
 
   GuessOutcome guess(String rawLetter) {
     final trimmed = rawLetter.trim();
-    if (trimmed.length != 1 ||
-        !TextNormalizer.isPlayableLetter(trimmed)) {
+    if (trimmed.length != 1 || !TextNormalizer.isPlayableLetter(trimmed)) {
       return GuessOutcome.invalid;
     }
     final normalized = TextNormalizer.normalizeLetter(trimmed);
@@ -39,9 +40,11 @@ class GameRound {
       return GuessOutcome.repeated;
     }
     guessedLetters.add(normalized);
-    return containsLetter(normalized)
-        ? GuessOutcome.hit
-        : GuessOutcome.miss;
+    if (containsLetter(normalized)) {
+      return GuessOutcome.hit;
+    }
+    errors++;
+    return GuessOutcome.miss;
   }
 
   bool isStructural(int index) {

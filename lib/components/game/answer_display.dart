@@ -9,26 +9,28 @@ class AnswerDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final answer = round.challenge.answer;
-    final children = <Widget>[];
-    for (var i = 0; i < answer.length; i++) {
-      final original = answer[i];
-      if (original == ' ') {
-        children.add(const SizedBox(width: 20, height: 46));
-        continue;
+    final rows = <Widget>[];
+    var index = 0;
+    for (final word in answer.split(' ')) {
+      final tiles = <Widget>[];
+      for (var i = 0; i < word.length; i++) {
+        tiles.add(
+          _LetterTile(
+            character: round.displayCharAt(index),
+            revealed: round.isRevealed(index),
+            structural: round.isStructural(index),
+          ),
+        );
+        index++;
       }
-      final revealed = round.isRevealed(i);
-      final structural = round.isStructural(i);
-      children.add(_LetterTile(
-        character: revealed ? original : '_',
-        revealed: revealed,
-        structural: structural,
-      ));
+      rows.add(Wrap(spacing: 6, runSpacing: 8, children: tiles));
+      index++; // pula o espaço entre palavras
     }
     return Wrap(
       alignment: WrapAlignment.center,
-      spacing: 6,
-      runSpacing: 8,
-      children: children,
+      spacing: 20,
+      runSpacing: 12,
+      children: rows,
     );
   }
 }
@@ -53,9 +55,7 @@ class _LetterTile extends StatelessWidget {
       decoration: BoxDecoration(
         border: structural
             ? null
-            : const Border(
-                bottom: BorderSide(color: Colors.white, width: 3),
-              ),
+            : const Border(bottom: BorderSide(color: Colors.white, width: 3)),
       ),
       child: Text(
         character,

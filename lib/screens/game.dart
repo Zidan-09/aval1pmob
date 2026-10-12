@@ -139,7 +139,7 @@ class _GameScreenState extends State<GameScreen> {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        color: const Color.fromARGB(255, 154, 57, 57),
+        color: Color.fromARGB(255, 5, 4, 5),
         child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(20.0),

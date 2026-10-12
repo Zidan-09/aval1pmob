@@ -1,34 +1,22 @@
 import 'package:aval1pmob/components/game/keyboard_key.dart';
 import 'package:flutter/material.dart';
 
-class VirtualKeyboard extends StatefulWidget {
+class VirtualKeyboard extends StatelessWidget {
   final ValueChanged<String> onKeyPressed;
+
+  final Set<String> usedLetters;
 
   const VirtualKeyboard({
     super.key,
     required this.onKeyPressed,
+    this.usedLetters = const {},
   });
 
-  @override
-  State<StatefulWidget> createState() => _VirtualKeyboardState();
-}
-
-class _VirtualKeyboardState extends State<VirtualKeyboard> {
   static const List<List<String>> keyboardRows = [
     ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
     ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
     ['Z', 'X', 'C', 'V', 'B', 'N', 'M'],
   ];
-
-  final Set<String> pressedKeys = {};
-
-  void handleKeyPressed(String character) {
-    setState(() {
-      pressedKeys.add(character);
-    });
-
-    widget.onKeyPressed(character);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,8 +35,8 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
                   height: 48,
                   child: KeyboardKey(
                     character: character,
-                    active: !pressedKeys.contains(character),
-                    onPressed: () => handleKeyPressed(character),
+                    active: !usedLetters.contains(character),
+                    onPressed: () => onKeyPressed(character),
                   ),
                 ),
               );

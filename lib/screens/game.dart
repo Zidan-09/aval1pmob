@@ -9,6 +9,7 @@ import 'package:aval1pmob/entities/game_round.dart';
 import 'package:aval1pmob/entities/player_stats.dart';
 import 'package:aval1pmob/services/word_challenge_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:aval1pmob/components/game/round_result_dialog.dart';
 
 class GameScreen extends StatefulWidget {
   static const String backgroundAsset = 'lib/assets/images/background2.png';
@@ -81,33 +82,27 @@ class _GameScreenState extends State<GameScreen> {
     showDialog<void>(
       context: context,
       barrierDismissible: false,
-      builder: (dialogContext) => AlertDialog(
-        title: Text(won ? 'Você venceu!' : 'Você perdeu'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Resposta: ${round.challenge.answer}'),
-            Text('Erros: ${round.errors}/${GameRound.maxErrors}'),
-            Text(hintUsed ? 'Dica: sim' : 'Dica: não'),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(dialogContext).pop();
-              Navigator.of(context).pop();
-            },
-            child: const Text('Voltar'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.of(dialogContext).pop();
-              _startNewRound();
-            },
-            child: const Text('Nova rodada'),
-          ),
-        ],
+      builder: (dialogContext) => RoundResultDialog(
+        won: round.won,
+        answer: round.challenge.answer,
+        errors: round.errors,
+        maxErrors: GameRound.maxErrors,
+        hintUsed: hintUsed,
+        selectionLabel:
+            '${widget.category.labelPt} • ${widget.difficulty.labelPt}',
+        onNewRound: () {
+          Navigator.of(dialogContext).pop();
+          _startNewRound();
+        },
+        onChangeSelection: () {
+          Navigator.of(dialogContext).pop();
+          Navigator.of(context)
+              .pop(); // volta p/ Home, lá você reabre o SetupGameDialog
+        },
+        onGoHome: () {
+          Navigator.of(dialogContext).pop();
+          Navigator.of(context).pop();
+        },
       ),
     );
   }

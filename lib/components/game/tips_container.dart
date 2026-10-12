@@ -59,18 +59,31 @@ class _TipsContainerState extends State<TipsContainer> {
     final bool hasTips = widget.challenge.hasTips;
     return Align(
       alignment: Alignment.centerRight,
-      child: InkWell(
-        onTap: hasTips ? _showHint : null,
-        child: Opacity(
-          opacity: hasTips ? 1.0 : 0.4,
-          child: Image.asset(
-            'lib/assets/images/dailog.png',
-            width: 47,
-            height: 47,
-            fit: BoxFit.contain,
-            semanticLabel: 'Dica',
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          InkWell(
+            onTap: hasTips ? _showHint : null,
+            child: Opacity(
+              opacity: hasTips ? 1.0 : 0.4,
+              child: Image.asset(
+                'lib/assets/images/dailog.png',
+                width: 47,
+                height: 47,
+                fit: BoxFit.contain,
+                semanticLabel: 'Dica',
+              ),
+            ),
           ),
-        ),
+          const SizedBox(height: 0),
+          const Text(
+            'Dica',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 12
+            ),
+          ),
+        ],
       ),
     );
   }

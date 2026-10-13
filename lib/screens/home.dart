@@ -2,6 +2,7 @@ import 'package:aval1pmob/components/home/setup_game_dialog.dart';
 import 'package:aval1pmob/entities/answer_category.dart';
 import 'package:aval1pmob/entities/difficulty.dart';
 import 'package:aval1pmob/entities/player_stats.dart';
+import 'package:aval1pmob/screens/about.dart';
 import 'package:aval1pmob/screens/game.dart';
 import 'package:aval1pmob/services/word_challenge_repository.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/material.dart';
 class HomeScreen extends StatefulWidget {
   static const String backgroundAsset = 'lib/assets/images/background.png';
   static const String startButtonAsset = 'lib/assets/images/button-start.png';
+  static const String aboutButtonAsset = 'lib/assets/images/about-button.png';
 
   final WordChallengeRepository repository;
   final PlayerStats playerStats;
@@ -59,6 +61,7 @@ class _HomeScreenState extends State<HomeScreen>
     super.didChangeDependencies();
     precacheImage(const AssetImage(HomeScreen.backgroundAsset), context);
     precacheImage(const AssetImage(HomeScreen.startButtonAsset), context);
+    precacheImage(const AssetImage(HomeScreen.aboutButtonAsset), context);
   }
 
   Future<void> _onStartTap() async {
@@ -73,6 +76,12 @@ class _HomeScreenState extends State<HomeScreen>
       context: context,
       builder: (dialogContext) =>
           SetupGameDialog(repository: widget.repository, startGame: _startGame),
+    );
+  }
+
+  void _openAbout(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(builder: (context) => const AboutScreen()),
     );
   }
 
@@ -130,7 +139,18 @@ class _HomeScreenState extends State<HomeScreen>
                         ),
                       ),
                     ),
-                    const SizedBox(height: 32),
+                    const SizedBox(height: 12),
+                    InkWell(
+                      onTap: () => _openAbout(context),
+                      borderRadius: BorderRadius.circular(24),
+                      child: Image.asset(
+                        HomeScreen.aboutButtonAsset,
+                        width: 300,
+                        fit: BoxFit.contain,
+                        semanticLabel: 'Sobre',
+                      ),
+                    ),
+                    const SizedBox(height: 24),
                   ],
                 ),
               ),

@@ -16,35 +16,50 @@ class GameTopBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        Flexible(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 130),
-            child: _LabeledCard(
-              title: 'Categoria',
-              child: _InfoCard(label: category.labelPt),
+    return SizedBox(
+      width: double.infinity,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Padding(
+            // Reserva espaço igual dos dois lados (menu à direita)
+            // para Categoria/Dificuldade ficarem no centro real da tela.
+            padding: const EdgeInsets.symmetric(horizontal: 55),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Flexible(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 130),
+                    child: _LabeledCard(
+                      title: 'Categoria',
+                      child: _InfoCard(label: category.labelPt),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Flexible(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 130),
+                    child: _LabeledCard(
+                      title: 'Dificuldade',
+                      child: _InfoCard(label: difficulty.labelPt),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
-        ),
-        const SizedBox(width: 8),
-        Flexible(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 130),
-            child: _LabeledCard(
-              title: 'Dificuldade',
-              child: _InfoCard(label: difficulty.labelPt),
+          Align(
+            alignment: Alignment.centerRight,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 2),
+              child: _MenuButton(onPressed: onMenuPressed),
             ),
           ),
-        ),
-        const SizedBox(width: 8),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 2),
-          child: _MenuButton(onPressed: onMenuPressed),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

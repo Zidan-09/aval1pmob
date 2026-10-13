@@ -189,7 +189,7 @@ class _GameScreenState extends State<GameScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+                  padding: const EdgeInsets.fromLTRB(16, 12, 4, 0),
                   child: GameTopBar(
                     category: widget.category,
                     difficulty: widget.difficulty,

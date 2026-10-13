@@ -4,6 +4,8 @@ import 'package:aval1pmob/services/word_challenge_repository.dart';
 import 'package:flutter/material.dart';
 
 class SetupGameDialog extends StatefulWidget {
+  static const String popupAsset = 'lib/assets/images/buttons/panel-popup.png';
+
   final WordChallengeRepository repository;
   final void Function(BuildContext, AnswerCategory, Difficulty) startGame;
 
@@ -39,163 +41,202 @@ class _SetupGameDialogState extends State<SetupGameDialog> {
       selectedDifficulty,
     );
     final canPlay = remaining > 0;
+    final size = MediaQuery.sizeOf(context);
 
-    return AlertDialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      backgroundColor: const Color.fromARGB(255, 43, 43, 54),
-      titleTextStyle: const TextStyle(
-        color: Colors.white,
-        fontSize: 25,
-        fontWeight: FontWeight.bold,
+    return Dialog(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      insetPadding: EdgeInsets.symmetric(
+        horizontal: size.width * 0.04,
+        vertical: size.height * 0.05,
       ),
-      contentTextStyle: const TextStyle(color: Colors.white70),
-      title: const Center(child: Text('Nova partida')),
-      content: SizedBox(
-        width: 350,
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Text(
-                'Categoria',
-                style: TextStyle(color: Colors.white54, fontSize: 14),
-              ),
-              const SizedBox(height: 8),
-              Wrap(
-                alignment: WrapAlignment.start,
-                spacing: 8,
-                runSpacing: 8,
-                children: categories.map((category) {
-                  final isSelected = selectedCategory == category;
-                  return ChoiceChip(
-                    label: SizedBox(
-                      width: 96,
-                      child: Text(
-                        category.labelPt,
-                        textAlign: TextAlign.center,
-                      ),
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          maxWidth: 500,
+          maxHeight: size.height * 0.90,
+        ),
+        child: Container(
+          width: double.infinity,
+          clipBehavior: Clip.hardEdge,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            image: const DecorationImage(
+              image: AssetImage(SetupGameDialog.popupAsset),
+              fit: BoxFit.fill,
+              centerSlice: Rect.fromLTWH(24, 24, 460, 444),
+            ),
+          ),
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.fromLTRB(44, 56, 44, 44),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Center(
+                  child: Text(
+                    'Nova partida',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
                     ),
-                    selected: isSelected,
-                    showCheckmark: false,
-                    backgroundColor: const Color(0xFF3A3A46),
-                    selectedColor: Colors.red,
-                    labelStyle: TextStyle(
-                      fontSize: 13,
-                      color: isSelected ? Colors.white : Colors.white70,
-                    ),
-                    shape: StadiumBorder(
-                      side: BorderSide(
-                        color: isSelected ? Colors.red : Colors.white24,
-                      ),
-                    ),
-                    onSelected: (_) {
-                      setState(() => selectedCategory = category);
-                    },
-                  );
-                }).toList(),
-              ),
-              const SizedBox(height: 16),
-              const Text(
-                'Dificuldade',
-                style: TextStyle(color: Colors.white54, fontSize: 14),
-              ),
-              const SizedBox(height: 8),
-              Wrap(
-                alignment: WrapAlignment.center,
-                spacing: 8,
-                runSpacing: 8,
-                children: difficulties.map((difficulty) {
-                  final isSelected = selectedDifficulty == difficulty;
-                  return ChoiceChip(
-                    label: SizedBox(
-                      width: 56,
-                      child: Text(
-                        difficulty.labelPt,
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    selected: isSelected,
-                    showCheckmark: false,
-                    backgroundColor: const Color(0xFF3A3A46),
-                    selectedColor: Colors.red,
-                    labelStyle: TextStyle(
-                      fontSize: 13,
-                      color: isSelected ? Colors.white : Colors.white70,
-                    ),
-                    shape: StadiumBorder(
-                      side: BorderSide(
-                        color: isSelected ? Colors.red : Colors.white24,
-                      ),
-                    ),
-                    onSelected: (_) {
-                      setState(() => selectedDifficulty = difficulty);
-                    },
-                  );
-                }).toList(),
-              ),
-              const SizedBox(height: 16),
-              const Text(
-                'Seleção',
-                style: TextStyle(color: Colors.white54, fontSize: 14),
-              ),
-              const SizedBox(height: 8),
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.white10,
-                  borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      '${selectedCategory.labelPt} • ${selectedDifficulty.labelPt}',
-                      style: const TextStyle(
-                        color: Colors.amber,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                const SizedBox(height: 20),
+                const Text(
+                  'Categoria',
+                  style: TextStyle(color: Colors.white54, fontSize: 14),
+                ),
+                const SizedBox(height: 8),
+                Wrap(
+                  alignment: WrapAlignment.start,
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: categories.map((category) {
+                    final isSelected = selectedCategory == category;
+                    return ChoiceChip(
+                      label: SizedBox(
+                        width: 96,
+                        child: Text(
+                          category.labelPt,
+                          textAlign: TextAlign.center,
+                        ),
                       ),
+                      selected: isSelected,
+                      showCheckmark: false,
+                      backgroundColor: const Color(0xFF3A3A46),
+                      selectedColor: Colors.red,
+                      labelStyle: TextStyle(
+                        fontSize: 13,
+                        color: isSelected ? Colors.white : Colors.white70,
+                      ),
+                      shape: StadiumBorder(
+                        side: BorderSide(
+                          color: isSelected ? Colors.red : Colors.white24,
+                        ),
+                      ),
+                      onSelected: (_) {
+                        setState(() => selectedCategory = category);
+                      },
+                    );
+                  }).toList(),
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  'Dificuldade',
+                  style: TextStyle(color: Colors.white54, fontSize: 14),
+                ),
+                const SizedBox(height: 8),
+                Wrap(
+                  alignment: WrapAlignment.center,
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: difficulties.map((difficulty) {
+                    final isSelected = selectedDifficulty == difficulty;
+                    return ChoiceChip(
+                      label: SizedBox(
+                        width: 56,
+                        child: Text(
+                          difficulty.labelPt,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      selected: isSelected,
+                      showCheckmark: false,
+                      backgroundColor: const Color(0xFF3A3A46),
+                      selectedColor: Colors.red,
+                      labelStyle: TextStyle(
+                        fontSize: 13,
+                        color: isSelected ? Colors.white : Colors.white70,
+                      ),
+                      shape: StadiumBorder(
+                        side: BorderSide(
+                          color: isSelected ? Colors.red : Colors.white24,
+                        ),
+                      ),
+                      onSelected: (_) {
+                        setState(() => selectedDifficulty = difficulty);
+                      },
+                    );
+                  }).toList(),
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  'Seleção',
+                  style: TextStyle(color: Colors.white54, fontSize: 14),
+                ),
+                const SizedBox(height: 8),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 12,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.white10,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        '${selectedCategory.labelPt} • ${selectedDifficulty.labelPt}',
+                        style: const TextStyle(
+                          color: Colors.amber,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        canPlay
+                            ? (remaining == 1
+                                  ? 'Resta 1 palavra'
+                                  : 'Restam $remaining palavras')
+                            : 'Todas as respostas dessa combinação já foram usadas.',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      style: TextButton.styleFrom(
+                        foregroundColor: Colors.white,
+                      ),
+                      child: const Text('CANCELAR'),
                     ),
-                    Text(
-                      canPlay
-                          ? (remaining == 1
-                                ? 'Resta 1 palavra'
-                                : 'Restam $remaining palavras')
-                          : 'Todas as respostas dessa combinação já foram usadas.',
-                      style: const TextStyle(color: Colors.white, fontSize: 12),
+                    const SizedBox(width: 8),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.amber,
+                        foregroundColor: Colors.black,
+                        shape: const StadiumBorder(),
+                      ),
+                      onPressed: canPlay
+                          ? () => widget.startGame(
+                              context,
+                              selectedCategory,
+                              selectedDifficulty,
+                            )
+                          : null,
+                      child: const Text('JOGAR'),
                     ),
                   ],
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          style: TextButton.styleFrom(foregroundColor: Colors.white),
-          child: const Text('CANCELAR'),
-        ),
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.amber,
-            foregroundColor: Colors.black,
-            shape: const StadiumBorder(),
-          ),
-          onPressed: canPlay
-              ? () => widget.startGame(
-                  context,
-                  selectedCategory,
-                  selectedDifficulty,
-                )
-              : null,
-          child: const Text('JOGAR'),
-        ),
-      ],
     );
   }
 }

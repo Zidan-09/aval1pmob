@@ -27,10 +27,11 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen>
-    with SingleTickerProviderStateMixin {
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   late final AnimationController _pulse;
   late final Animation<double> _scale;
+  late final AnimationController _pulseAbout;
+  late final Animation<double> _scaleAbout;
 
   @override
   void initState() {
@@ -43,6 +44,14 @@ class _HomeScreenState extends State<HomeScreen>
       begin: 1.0,
       end: 0.9,
     ).animate(CurvedAnimation(parent: _pulse, curve: Curves.easeInOut));
+    _pulseAbout = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 100),
+    );
+    _scaleAbout = Tween<double>(
+      begin: 1.0,
+      end: 0.9,
+    ).animate(CurvedAnimation(parent: _pulseAbout, curve: Curves.easeInOut));
     if (widget.openSetupOnStart) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) _showSetupDialog(context);
@@ -53,6 +62,7 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   void dispose() {
     _pulse.dispose();
+    _pulseAbout.dispose();
     super.dispose();
   }
 
@@ -71,6 +81,13 @@ class _HomeScreenState extends State<HomeScreen>
     if (mounted) _showSetupDialog(context);
   }
 
+  Future<void> _onAboutTap() async {
+    if (_pulseAbout.isAnimating) return;
+    await _pulseAbout.forward();
+    await _pulseAbout.reverse();
+    if (mounted) _openAbout(context);
+  }
+
   void _showSetupDialog(BuildContext context) {
     showDialog<void>(
       context: context,
@@ -80,9 +97,9 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   void _openAbout(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(builder: (context) => const AboutScreen()),
-    );
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute<void>(builder: (context) => const AboutScreen()));
   }
 
   void _startGame(
@@ -129,28 +146,37 @@ class _HomeScreenState extends State<HomeScreen>
                     InkWell(
                       onTap: _onStartTap,
                       borderRadius: BorderRadius.circular(24),
-                      child: ScaleTransition(
-                        scale: _scale,
-                        child: Image.asset(
-                          HomeScreen.startButtonAsset,
-                          width: 300,
-                          fit: BoxFit.contain,
-                          semanticLabel: 'Começar',
+                      child: ClipRect(
+                        child: Align(
+                          alignment: Alignment.center,
+                          heightFactor: 0.62,
+                          child: ScaleTransition(
+                            scale: _scale,
+                            child: Image.asset(
+                              HomeScreen.startButtonAsset,
+                              width: 300,
+                              fit: BoxFit.contain,
+                              semanticLabel: 'Começar',
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 0),
                     InkWell(
-                      onTap: () => _openAbout(context),
+                      onTap: _onAboutTap,
                       borderRadius: BorderRadius.circular(24),
-                      child: Image.asset(
-                        HomeScreen.aboutButtonAsset,
-                        width: 300,
-                        fit: BoxFit.contain,
-                        semanticLabel: 'Sobre',
+                      child: ScaleTransition(
+                        scale: _scaleAbout,
+                        child: Image.asset(
+                          HomeScreen.aboutButtonAsset,
+                          width: 300,
+                          fit: BoxFit.contain,
+                          semanticLabel: 'Sobre',
+                        ),
                       ),
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 0),
                   ],
                 ),
               ),

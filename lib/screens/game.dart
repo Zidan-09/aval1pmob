@@ -63,6 +63,10 @@ class _GameScreenState extends State<GameScreen> {
       const AssetImage('lib/assets/images/buttons/dialog-button.png'),
       context,
     );
+    precacheImage(
+      const AssetImage('lib/assets/images/buttons/pause-button.png'),
+      context,
+    );
   }
 
   void onKeyPressed(String key) {

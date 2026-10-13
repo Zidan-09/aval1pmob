@@ -34,6 +34,34 @@ class _SetupGameDialogState extends State<SetupGameDialog> {
     selectedDifficulty = difficulties.first;
   }
 
+  List<Widget> _chipRows<T>({
+    required List<T> items,
+    required int perRow,
+    required Widget Function(T item) buildChip,
+  }) {
+    final rows = <Widget>[];
+    for (var i = 0; i < items.length; i += perRow) {
+      final slice = items.sublist(
+        i,
+        i + perRow > items.length ? items.length : i + perRow,
+      );
+      rows.add(
+        Row(
+          children: [
+            for (var j = 0; j < slice.length; j++) ...[
+              if (j > 0) const SizedBox(width: 8),
+              Expanded(child: buildChip(slice[j])),
+            ],
+          ],
+        ),
+      );
+      if (i + perRow < items.length) {
+        rows.add(const SizedBox(height: 8));
+      }
+    }
+    return rows;
+  }
+
   @override
   Widget build(BuildContext context) {
     final remaining = widget.repository.remainingCount(
@@ -42,6 +70,7 @@ class _SetupGameDialogState extends State<SetupGameDialog> {
     );
     final canPlay = remaining > 0;
     final size = MediaQuery.sizeOf(context);
+    final sidePadding = (size.width * 0.10).clamp(36.0, 52.0);
 
     return Dialog(
       backgroundColor: Colors.transparent,
@@ -67,7 +96,7 @@ class _SetupGameDialogState extends State<SetupGameDialog> {
             ),
           ),
           child: SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(44, 56, 44, 44),
+            padding: EdgeInsets.fromLTRB(sidePadding, 56, sidePadding, 48),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -77,26 +106,25 @@ class _SetupGameDialogState extends State<SetupGameDialog> {
                     'Nova partida',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 22,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 12),
                 const Text(
                   'Categoria',
                   style: TextStyle(color: Colors.white54, fontSize: 14),
                 ),
                 const SizedBox(height: 8),
-                Wrap(
-                  alignment: WrapAlignment.start,
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: categories.map((category) {
+                ..._chipRows<AnswerCategory>(
+                  items: categories,
+                  perRow: 2,
+                  buildChip: (category) {
                     final isSelected = selectedCategory == category;
                     return ChoiceChip(
                       label: SizedBox(
-                        width: 96,
+                        width: double.infinity,
                         child: Text(
                           category.labelPt,
                           textAlign: TextAlign.center,
@@ -104,6 +132,7 @@ class _SetupGameDialogState extends State<SetupGameDialog> {
                       ),
                       selected: isSelected,
                       showCheckmark: false,
+                      visualDensity: VisualDensity.compact,
                       backgroundColor: const Color(0xFF3A3A46),
                       selectedColor: Colors.red,
                       labelStyle: TextStyle(
@@ -119,23 +148,22 @@ class _SetupGameDialogState extends State<SetupGameDialog> {
                         setState(() => selectedCategory = category);
                       },
                     );
-                  }).toList(),
+                  },
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 12),
                 const Text(
                   'Dificuldade',
                   style: TextStyle(color: Colors.white54, fontSize: 14),
                 ),
                 const SizedBox(height: 8),
-                Wrap(
-                  alignment: WrapAlignment.center,
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: difficulties.map((difficulty) {
+                ..._chipRows<Difficulty>(
+                  items: difficulties,
+                  perRow: 3,
+                  buildChip: (difficulty) {
                     final isSelected = selectedDifficulty == difficulty;
                     return ChoiceChip(
                       label: SizedBox(
-                        width: 56,
+                        width: double.infinity,
                         child: Text(
                           difficulty.labelPt,
                           textAlign: TextAlign.center,
@@ -143,6 +171,7 @@ class _SetupGameDialogState extends State<SetupGameDialog> {
                       ),
                       selected: isSelected,
                       showCheckmark: false,
+                      visualDensity: VisualDensity.compact,
                       backgroundColor: const Color(0xFF3A3A46),
                       selectedColor: Colors.red,
                       labelStyle: TextStyle(
@@ -158,52 +187,55 @@ class _SetupGameDialogState extends State<SetupGameDialog> {
                         setState(() => selectedDifficulty = difficulty);
                       },
                     );
-                  }).toList(),
+                  },
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 12),
                 const Text(
                   'Seleção',
                   style: TextStyle(color: Colors.white54, fontSize: 14),
                 ),
                 const SizedBox(height: 8),
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 14,
-                    vertical: 12,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.white10,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        '${selectedCategory.labelPt} • ${selectedDifficulty.labelPt}',
-                        style: const TextStyle(
-                          color: Colors.amber,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 14,
+                      vertical: 12,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white10,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          '${selectedCategory.labelPt} • ${selectedDifficulty.labelPt}',
+                          style: const TextStyle(
+                            color: Colors.amber,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        canPlay
-                            ? (remaining == 1
-                                  ? 'Resta 1 palavra'
-                                  : 'Restam $remaining palavras')
-                            : 'Todas as respostas dessa combinação já foram usadas.',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
+                        const SizedBox(height: 2),
+                        Text(
+                          canPlay
+                              ? (remaining == 1
+                                    ? 'Resta 1 palavra'
+                                    : 'Restam $remaining palavras')
+                              : 'Todas as respostas dessa combinação já foram usadas.',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 12),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [

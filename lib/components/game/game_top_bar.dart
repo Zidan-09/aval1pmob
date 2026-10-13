@@ -131,21 +131,19 @@ class _MenuButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: const Color(0xFFD9D9D9),
+    return InkWell(
       borderRadius: BorderRadius.circular(13),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(13),
-        onTap:
-            onPressed ??
-            () {
-              // TODO: open session stats / back to home. Not implemented yet.
-            },
-        child: const SizedBox(
-          width: 47,
-          height: 47,
-          child: Icon(Icons.menu, color: Colors.black, size: 28),
-        ),
+      onTap:
+          onPressed ??
+          () {
+            // TODO: open session stats / back to home. Not implemented yet.
+          },
+      child: Image.asset(
+        'lib/assets/images/buttons/pause-button.png',
+        width: 47,
+        height: 47,
+        fit: BoxFit.contain,
+        semanticLabel: 'Menu',
       ),
     );
   }

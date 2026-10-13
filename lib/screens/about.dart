@@ -11,17 +11,17 @@ class TeamMember {
 const String _charactersPath = 'lib/assets/images/characters';
 
 const List<TeamMember> teamMembers = [
-    TeamMember(
+  TeamMember(
     name: 'Samuel da Penha Nascimento',
     role: 'Responsabilidade a definir',
     imageAsset: '$_charactersPath/shadow-select.png',
   ),
-    TeamMember(
+  TeamMember(
     name: 'Gabriel Lima Silva Oliveira',
     role: 'Responsabilidade a definir',
     imageAsset: '$_charactersPath/tails-select.png',
   ),
-    TeamMember(
+  TeamMember(
     name: 'Paulo Henrique Alves Vieira',
     role: 'Responsabilidade a definir',
     imageAsset: '$_charactersPath/werehog-select.png',
@@ -54,7 +54,7 @@ class AboutScreen extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 8, top: 4),
+                    padding: const EdgeInsets.only(left: 8, top: 2),
                     child: Material(
                       color: Colors.black54,
                       shape: const CircleBorder(),
@@ -71,7 +71,7 @@ class AboutScreen extends StatelessWidget {
                 ),
                 Expanded(
                   child: SingleChildScrollView(
-                    padding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
+                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -80,55 +80,55 @@ class AboutScreen extends StatelessWidget {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 34,
+                            fontSize: 30,
                             fontWeight: FontWeight.bold,
                             letterSpacing: 4,
                           ),
                         ),
-                        const SizedBox(height: 4),
+                        const SizedBox(height: 2),
                         const Text(
-                          'MEMBROS DA EQUIPE',
+                          'MEMBROS DA EQUIPE E INFORMAÇÕES TRABALHO',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.redAccent,
-                            fontSize: 14,
+                            fontSize: 13,
                             fontWeight: FontWeight.bold,
                             letterSpacing: 1.5,
                           ),
                         ),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: 8),
                         const Text(
-                          'Jogo da Forca inspirado no universo de Sonic.exe, ',
+                          'Jogo da Forca inspirado no universo de Sonic.exe ',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.white70,
-                            fontSize: 14,
+                            fontSize: 13,
                           ),
                         ),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 12),
                         ...teamMembers.map(
                           (member) => Padding(
-                            padding: const EdgeInsets.only(bottom: 12),
+                            padding: const EdgeInsets.only(bottom: 8),
                             child: _MemberCard(member: member),
                           ),
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: 4),
                         const Text(
                           'DESENVOLVIDO EM EQUIPE',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.white60,
-                            fontSize: 12,
+                            fontSize: 11,
                             letterSpacing: 2,
                           ),
                         ),
-                        const SizedBox(height: 4),
+                        const SizedBox(height: 2),
                         const Text(
                           'TECNOLOGIAS: FLUTTER • DART',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.white60,
-                            fontSize: 12,
+                            fontSize: 11,
                             letterSpacing: 2,
                           ),
                         ),
@@ -153,6 +153,7 @@ class _MemberCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.fromLTRB(8, 5, 12, 5),
       decoration: BoxDecoration(
         color: const Color(0xFF1A1A22).withValues(alpha: 0.92),
         borderRadius: BorderRadius.circular(12),
@@ -160,39 +161,38 @@ class _MemberCard extends StatelessWidget {
           left: BorderSide(color: Colors.redAccent, width: 4),
         ),
       ),
-      clipBehavior: Clip.antiAlias,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           _MemberArtwork(imageAsset: member.imageAsset, name: member.name),
+          const SizedBox(width: 12),
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 14,
-                vertical: 16,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    member.name,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                    ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  member.name,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    height: 1.2,
                   ),
-                  const SizedBox(height: 8),
-                  Text(
-                    member.role,
-                    style: const TextStyle(
-                      color: Colors.white70,
-                      fontSize: 14,
-                    ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  member.role,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: Colors.white70,
+                    fontSize: 13,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ],
@@ -207,23 +207,34 @@ class _MemberArtwork extends StatelessWidget {
 
   const _MemberArtwork({this.imageAsset, required this.name});
 
+  static const double _aspect = 9 / 16;
+
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final double width = (screenWidth * 0.21).clamp(60.0, 76.0).toDouble();
+    final double height = width / _aspect;
+
     return Container(
-      width: 132,
-      height: 220,
-      color: Colors.black45,
+      width: width,
+      height: height,
+      decoration: BoxDecoration(
+        color: Colors.black45,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.white24),
+      ),
+      clipBehavior: Clip.antiAlias,
       alignment: Alignment.center,
       child: imageAsset == null
           ? const Icon(
               Icons.person_outline,
               color: Colors.white38,
-              size: 48,
+              size: 36,
             )
           : Image.asset(
               imageAsset!,
-              width: 132,
-              height: 220,
+              width: width,
+              height: height,
               fit: BoxFit.contain,
               semanticLabel: name,
             ),

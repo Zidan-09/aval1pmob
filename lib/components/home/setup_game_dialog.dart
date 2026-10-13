@@ -69,12 +69,19 @@ class _SetupGameDialogState extends State<SetupGameDialog> {
                 children: categories.map((category) {
                   final isSelected = selectedCategory == category;
                   return ChoiceChip(
-                    label: Text(category.labelPt),
+                    label: SizedBox(
+                      width: 96,
+                      child: Text(
+                        category.labelPt,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
                     selected: isSelected,
                     showCheckmark: false,
                     backgroundColor: const Color(0xFF3A3A46),
                     selectedColor: Colors.red,
                     labelStyle: TextStyle(
+                      fontSize: 13,
                       color: isSelected ? Colors.white : Colors.white70,
                     ),
                     shape: StadiumBorder(
@@ -101,12 +108,19 @@ class _SetupGameDialogState extends State<SetupGameDialog> {
                 children: difficulties.map((difficulty) {
                   final isSelected = selectedDifficulty == difficulty;
                   return ChoiceChip(
-                    label: Text(difficulty.labelPt),
+                    label: SizedBox(
+                      width: 56,
+                      child: Text(
+                        difficulty.labelPt,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
                     selected: isSelected,
                     showCheckmark: false,
                     backgroundColor: const Color(0xFF3A3A46),
                     selectedColor: Colors.red,
                     labelStyle: TextStyle(
+                      fontSize: 13,
                       color: isSelected ? Colors.white : Colors.white70,
                     ),
                     shape: StadiumBorder(

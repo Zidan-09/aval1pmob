@@ -14,7 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:aval1pmob/components/game/round_result_dialog.dart';
 
 class GameScreen extends StatefulWidget {
-  static const String backgroundAsset = 'lib/assets/images/background2.png';
+  static const String backgroundAsset =
+      'lib/assets/images/backgrounds/game-black-background.png';
 
   final WordChallengeRepository repository;
   final PlayerStats playerStats;
@@ -54,8 +55,14 @@ class _GameScreenState extends State<GameScreen> {
       precacheImage(AssetImage('lib/assets/images/sonic/$i.jpg'), context);
     }
     precacheImage(const AssetImage(GameScreen.backgroundAsset), context);
-    precacheImage(const AssetImage('lib/assets/images/mode.png'), context);
-    precacheImage(const AssetImage('lib/assets/images/dailog.png'), context);
+    precacheImage(
+      const AssetImage('lib/assets/images/buttons/panel.png'),
+      context,
+    );
+    precacheImage(
+      const AssetImage('lib/assets/images/buttons/dialog-button.png'),
+      context,
+    );
   }
 
   void onKeyPressed(String key) {
@@ -163,7 +170,6 @@ class _GameScreenState extends State<GameScreen> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -188,7 +194,7 @@ class _GameScreenState extends State<GameScreen> {
                     category: widget.category,
                     difficulty: widget.difficulty,
                     // TODO: implement menu behavior (session stats / back to home).
-                    onMenuPressed: _openSessionStats ,
+                    onMenuPressed: _openSessionStats,
                   ),
                 ),
                 Expanded(

@@ -67,7 +67,7 @@ class _TipsContainerState extends State<TipsContainer> {
             child: Opacity(
               opacity: hasTips ? 1.0 : 0.4,
               child: Image.asset(
-                'lib/assets/images/dailog.png',
+                'lib/assets/images/buttons/dialog-button.png',
                 width: 47,
                 height: 47,
                 fit: BoxFit.contain,
@@ -78,10 +78,7 @@ class _TipsContainerState extends State<TipsContainer> {
           const SizedBox(height: 0),
           const Text(
             'Dica',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 12
-            ),
+            style: TextStyle(color: Colors.white, fontSize: 12),
           ),
         ],
       ),

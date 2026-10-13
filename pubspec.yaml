@@ -50,11 +50,11 @@ dev_dependencies:
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: lib/assets/images/icon.png
+  image_path: lib/assets/images/logo/icon.png
   adaptive_icon_background: '#000000'
   web:
     generate: true
-    image_path: lib/assets/images/icon.png
+    image_path: lib/assets/images/logo/icon.png
     background_color: '#000000'
     theme_color: '#000000'
 
@@ -72,6 +72,9 @@ flutter:
   assets:
     - lib/assets/
     - lib/assets/images/
+    - lib/assets/images/backgrounds/
+    - lib/assets/images/buttons/
+    - lib/assets/images/logo/
     - lib/assets/images/sonic/
     - lib/assets/data/
     - lib/assets/images/characters/

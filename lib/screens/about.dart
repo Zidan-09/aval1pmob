@@ -35,7 +35,7 @@ const List<TeamMember> teamMembers = [
 
 class AboutScreen extends StatelessWidget {
   static const String backgroundAsset =
-      'lib/assets/images/about-background.png';
+      'lib/assets/images/backgrounds/about-background.png';
 
   const AboutScreen({super.key});
 
@@ -59,10 +59,7 @@ class AboutScreen extends StatelessWidget {
                       color: Colors.black54,
                       shape: const CircleBorder(),
                       child: IconButton(
-                        icon: const Icon(
-                          Icons.arrow_back,
-                          color: Colors.white,
-                        ),
+                        icon: const Icon(Icons.arrow_back, color: Colors.white),
                         tooltip: 'Voltar',
                         onPressed: () => Navigator.of(context).pop(),
                       ),
@@ -100,10 +97,7 @@ class AboutScreen extends StatelessWidget {
                         const Text(
                           'Jogo da Forca inspirado no universo de Sonic.exe ',
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.white70,
-                            fontSize: 13,
-                          ),
+                          style: TextStyle(color: Colors.white70, fontSize: 13),
                         ),
                         const SizedBox(height: 12),
                         ...teamMembers.map(
@@ -187,10 +181,7 @@ class _MemberCard extends StatelessWidget {
                   member.role,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    color: Colors.white70,
-                    fontSize: 13,
-                  ),
+                  style: const TextStyle(color: Colors.white70, fontSize: 13),
                 ),
               ],
             ),
@@ -226,11 +217,7 @@ class _MemberArtwork extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       alignment: Alignment.center,
       child: imageAsset == null
-          ? const Icon(
-              Icons.person_outline,
-              color: Colors.white38,
-              size: 36,
-            )
+          ? const Icon(Icons.person_outline, color: Colors.white38, size: 36)
           : Image.asset(
               imageAsset!,
               width: width,

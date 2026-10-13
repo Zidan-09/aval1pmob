@@ -9,9 +9,12 @@ import 'package:aval1pmob/services/word_challenge_repository.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
-  static const String backgroundAsset = 'lib/assets/images/background.png';
-  static const String startButtonAsset = 'lib/assets/images/button-start.png';
-  static const String aboutButtonAsset = 'lib/assets/images/about-button.png';
+  static const String backgroundAsset =
+      'lib/assets/images/backgrounds/home-background.png';
+  static const String startButtonAsset =
+      'lib/assets/images/buttons/start-button.png';
+  static const String aboutButtonAsset =
+      'lib/assets/images/buttons/about-button.png';
 
   final WordChallengeRepository repository;
   final PlayerStats playerStats;

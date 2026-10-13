@@ -88,7 +88,7 @@ class _InfoCard extends StatelessWidget {
         alignment: Alignment.center,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('lib/assets/images/mode.png'),
+            image: AssetImage('lib/assets/images/buttons/panel.png'),
             fit: BoxFit.fill,
           ),
         ),

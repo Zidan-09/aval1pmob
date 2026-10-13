@@ -46,6 +46,17 @@ class _GameScreenState extends State<GameScreen> {
     );
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    for (var i = 0; i <= GameRound.maxErrors; i++) {
+      precacheImage(AssetImage('lib/assets/images/sonic/$i.jpg'), context);
+    }
+    precacheImage(const AssetImage(GameScreen.backgroundAsset), context);
+    precacheImage(const AssetImage('lib/assets/images/mode.png'), context);
+    precacheImage(const AssetImage('lib/assets/images/dailog.png'), context);
+  }
+
   void onKeyPressed(String key) {
     final outcome = round.guess(key);
     if (outcome != GuessOutcome.hit && outcome != GuessOutcome.miss) return;

@@ -54,6 +54,13 @@ class _HomeScreenState extends State<HomeScreen>
     super.dispose();
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    precacheImage(const AssetImage(HomeScreen.backgroundAsset), context);
+    precacheImage(const AssetImage(HomeScreen.startButtonAsset), context);
+  }
+
   Future<void> _onStartTap() async {
     if (_pulse.isAnimating) return;
     await _pulse.forward();

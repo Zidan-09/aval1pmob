@@ -14,8 +14,9 @@ import 'package:flutter/material.dart';
 import 'package:aval1pmob/components/game/round_result_dialog.dart';
 
 class GameScreen extends StatefulWidget {
-  static const String backgroundAsset =
-      'lib/assets/images/backgrounds/game-black-background.png';
+  static const String backgroundAsset = 'lib/assets/images/backgrounds/game-black-background.png';
+  static const String jumpscareAsset = 'lib/assets/images/sonic/jumpscary.jpg';
+  static const Duration jumpscareDuration = Duration(seconds: 3);
 
   final WordChallengeRepository repository;
   final PlayerStats playerStats;
@@ -67,6 +68,7 @@ class _GameScreenState extends State<GameScreen> {
       const AssetImage('lib/assets/images/buttons/pause-button.png'),
       context,
     );
+    precacheImage(const AssetImage(GameScreen.jumpscareAsset), context);
   }
 
   void onKeyPressed(String key) {
@@ -102,6 +104,40 @@ class _GameScreenState extends State<GameScreen> {
   }
 
   void _showResult() {
+    if (!round.won) {
+      _showJumpscareThenResult();
+      return;
+    }
+    _showResultDialog();
+  }
+
+  Future<void> _showJumpscareThenResult() async {
+    showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      barrierColor: Colors.black,
+      builder: (_) => const PopScope(
+        canPop: false,
+        child: Dialog(
+          backgroundColor: Colors.black,
+          insetPadding: EdgeInsets.zero,
+          child: SizedBox.expand(
+            child: Image(
+              image: AssetImage(GameScreen.jumpscareAsset),
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+      ),
+    );
+    await Future.delayed(GameScreen.jumpscareDuration);
+    if (!mounted) return;
+    Navigator.of(context).pop();
+    if (!mounted) return;
+    _showResultDialog();
+  }
+
+  void _showResultDialog() {
     showDialog<void>(
       context: context,
       barrierDismissible: false,

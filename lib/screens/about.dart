@@ -68,7 +68,7 @@ class AboutScreen extends StatelessWidget {
                 ),
                 Expanded(
                   child: SingleChildScrollView(
-                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                    padding: const EdgeInsets.fromLTRB(16, 10, 16, 12),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [

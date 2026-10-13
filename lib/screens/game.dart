@@ -3,6 +3,7 @@ import 'package:aval1pmob/components/game/game_top_bar.dart';
 import 'package:aval1pmob/components/game/hangman_figure.dart';
 import 'package:aval1pmob/components/game/tips_container.dart';
 import 'package:aval1pmob/components/game/virtual_keyboard.dart';
+import 'package:aval1pmob/components/game/session_stats_dialog.dart';
 import 'package:aval1pmob/entities/answer_category.dart';
 import 'package:aval1pmob/entities/difficulty.dart';
 import 'package:aval1pmob/entities/game_round.dart';
@@ -148,6 +149,21 @@ class _GameScreenState extends State<GameScreen> {
     });
   }
 
+  void _openSessionStats() {
+    showDialog<void>(
+      context: context,
+      builder: (dialogContext) => SessionStatsDialog(
+        stats: widget.playerStats,
+        variant: SessionStatsVariant.inGame,
+        onGoHome: () {
+          Navigator.of(dialogContext).pop();
+          Navigator.of(context).pop();
+        },
+      ),
+    );
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -172,7 +188,7 @@ class _GameScreenState extends State<GameScreen> {
                     category: widget.category,
                     difficulty: widget.difficulty,
                     // TODO: implement menu behavior (session stats / back to home).
-                    onMenuPressed: null,
+                    onMenuPressed: _openSessionStats ,
                   ),
                 ),
                 Expanded(

@@ -29,11 +29,13 @@ class PlayerStats {
     tipsUseds++;
   }
 
-  num getWinsPercentage() {
-    return wins * (games / 100);
-  }
+double get winsPercentage {
+  if (games == 0) return 0;
+  return wins / games * 100;
+}
 
-  num getLosesPercentage() {
-    return loses * (games / 100);
-  }
+double get lossesPercentage {
+  if (games == 0) return 0;
+  return loses / games * 100;
+}
 }

@@ -1,3 +1,4 @@
+import 'package:aval1pmob/components/game/session_stats_dialog.dart';
 import 'package:aval1pmob/components/home/setup_game_dialog.dart';
 import 'package:aval1pmob/entities/answer_category.dart';
 import 'package:aval1pmob/entities/difficulty.dart';
@@ -178,6 +179,25 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     ),
                     const SizedBox(height: 0),
                   ],
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 8,
+            right: 8,
+            child: Material(
+              color: Colors.black54,
+              shape: const CircleBorder(),
+              child: IconButton(
+                icon: const Icon(Icons.bar_chart, color: Colors.white),
+                tooltip: 'Estatísticas',
+                onPressed: () => showDialog<void>(
+                  context: context, // context do build da Home
+                  builder: (_) => SessionStatsDialog(
+                    stats: widget.playerStats, // mesmo objeto do jogo
+                    variant: SessionStatsVariant.home, // só mostra Fechar
+                  ),
                 ),
               ),
             ),

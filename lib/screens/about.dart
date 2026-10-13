@@ -87,7 +87,7 @@ class AboutScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 4),
                         const Text(
-                          'QUEM ESTÁ POR TRÁS DO JOGO?',
+                          'MEMBROS DA EQUIPE',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.redAccent,
@@ -98,9 +98,7 @@ class AboutScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 12),
                         const Text(
-                          'Jogo da Forca inspirado no universo de Sonic.exe, '
-                          'desenvolvido como um projeto acadêmico utilizando '
-                          'Flutter e Dart.',
+                          'Jogo da Forca inspirado no universo de Sonic.exe, ',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.white70,

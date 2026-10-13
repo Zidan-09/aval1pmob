@@ -29,7 +29,7 @@ class KeyboardKey extends StatelessWidget {
         child: Text(
           character,
           style: TextStyle(
-            fontSize: 20,
+            fontSize: 18,
             fontWeight: FontWeight.bold,
             color: active ? Colors.white : Colors.black,
           ),

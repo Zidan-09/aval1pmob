@@ -25,7 +25,16 @@ class VirtualKeyboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final keyWidth = ((constraints.maxWidth - 60) / 10).clamp(28.0, 36.0);
+        const spacing = 4.0;
+        final maxLen = keyboardRows
+            .map((row) => row.length)
+            .reduce((a, b) => a > b ? a : b);
+        final keyWidth =
+            ((constraints.maxWidth - spacing * (maxLen + 1)) / maxLen).clamp(
+              0.0,
+              38.0,
+            );
+        final keyHeight = constraints.maxWidth < 350 ? 40.0 : 48.0;
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: keyboardRows.map((rowKeys) {
@@ -36,10 +45,12 @@ class VirtualKeyboard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: rowKeys.map((character) {
                   return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 3.0),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: spacing / 2,
+                    ),
                     child: SizedBox(
                       width: keyWidth,
-                      height: 48,
+                      height: keyHeight,
                       child: KeyboardKey(
                         character: character,
                         active: enabled && !usedLetters.contains(character),

@@ -1,5 +1,12 @@
 # Jogo da Forca do Sonic.exe
 
+## Integrantes
+
+- Paulo Henrique Alves Vieira
+- Samuel da Penha Nascimento
+- Gabriel Lima Silva Oliveira
+- Erick Vieira da Silva Costa
+
 ## Breve descrição
 
 Jogo da Forca temática do universo **Sonic.exe** desenvolvido em **Flutter** como trabalho de avaliação da disciplina de Programação Mobile (AVAL1 - PMOB).
@@ -60,8 +67,8 @@ Dados das palavras/desafios carregados localmente a partir de JSON (`lib/assets/
 - Assets locais: imagens (`lib/assets/images/`, `sonic/`, `characters/`), dados JSON (`lib/assets/data/hangman.json`)
 - Arquitetura simples por camadas:
   - `lib/screens/` — Home, Game, About
-  - `lib/components/game/` e `lib/components/home/` — widgets reutilizáveis
-  - `lib/entities/` — `WordChallenge`, `GameRound`, `PlayerStats`, `Difficulty`, `AnswerCategory`
+  - `lib/components/` — widgets reutilizáveis por contexto (`app/`, `about/`, `dialog/`, `home/` com `setup/`, `game/` com `keyboard/`, `top_bar/`, `board/`, `result/`, `stats/`, `tips/`)
+  - `lib/entities/` — `WordChallenge`, `GameRound`, `PlayerStats`, `Difficulty`, `AnswerCategory`, `TeamMember`
   - `lib/services/` + `lib/utils/` — repositório de desafios, parsing JSON e normalização de texto
 
 ## Instruções para obtenção e execução do projeto
@@ -84,7 +91,7 @@ flutter doctor
 Clone o repositório (substitua pela URL real do seu repositório):
 
 ```bash
-git clone <URL-DO-REPOSITORIO>
+git clone https://github.com/Zidan-09/aval1pmob.git
 cd aval1pmob
 ```
 
@@ -148,19 +155,23 @@ dart run flutter_launcher_icons
 ```
 lib/
   main.dart                    # Inicialização, carrega repositório JSON
+  load_error_app.dart          # Tela de erro de carregamento dos dados
   screens/                     # home.dart, game.dart, about.dart
-  components/game/             # teclado virtual, forca, dicas, diálogos
-  components/home/             # diálogo de configuração
-  entities/                    # regras da rodada e estatísticas
+  components/
+    app/                       # scaffold base + fundo da status bar
+    about/                     # cards dos membros da equipe
+    dialog/                    # primitivos de popup (painel, estilo, título)
+    home/                      # botão da home + setup/ (diálogo de configuração)
+    game/
+      keyboard/                # teclado virtual
+      top_bar/                 # barra superior da partida
+      board/                   # figura da forca + exibição da resposta
+      result/                  # diálogo de resultado + jumpscare
+      stats/                   # estatísticas da sessão
+      tips/                    # contêiner de dicas
+  entities/                    # regras da rodada, estatísticas e enums
   services/ + utils/           # repositório WordChallenge + JSON
   assets/
-    images/ + sonic/ + characters/
+    images/ (backgrounds/ + buttons/ + characters/ + sonic/ + logo/)
     data/hangman.json
 ```
-
-## Participantes
-
-- Paulo Henrique Alves Vieira
-- Samuel da Penha Nascimento
-- Gabriel Lima Silva Oliveira
-- Erick Vieira da Silva Costa

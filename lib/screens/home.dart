@@ -8,6 +8,7 @@ import 'package:aval1pmob/screens/about.dart';
 import 'package:aval1pmob/screens/game.dart';
 import 'package:aval1pmob/services/word_challenge_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String backgroundAsset =
@@ -138,17 +139,30 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.sizeOf(context);
+    final statusH = MediaQuery.paddingOf(context).top;
+    final buttonWidth = (size.width * 0.68).clamp(200.0, 300.0);
+
     return Scaffold(
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          Image.asset(HomeScreen.backgroundAsset, fit: BoxFit.cover),
-          SafeArea(
-            child: Center(
+      backgroundColor: Colors.black,
+      body: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.light,
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            Image.asset(HomeScreen.backgroundAsset, fit: BoxFit.cover),
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: Container(height: statusH, color: Colors.black),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
               child: Padding(
-                padding: const EdgeInsets.all(24),
+                padding: const EdgeInsets.fromLTRB(24, 0, 24, 80),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     InkWell(
@@ -157,12 +171,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       child: ClipRect(
                         child: Align(
                           alignment: Alignment.center,
-                          heightFactor: 0.62,
+                          heightFactor: 0.6,
                           child: ScaleTransition(
                             scale: _scale,
                             child: Image.asset(
                               HomeScreen.startButtonAsset,
-                              width: 300,
+                              width: buttonWidth,
                               fit: BoxFit.contain,
                               semanticLabel: 'Começar',
                             ),
@@ -176,51 +190,56 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       borderRadius: BorderRadius.circular(24),
                       child: ScaleTransition(
                         scale: _scaleAbout,
-                        child: Image.asset(
-                          HomeScreen.aboutButtonAsset,
-                          width: 300,
-                          fit: BoxFit.contain,
-                          semanticLabel: 'Sobre',
+                        child: ClipRect(
+                          child: Align(
+                            alignment: Alignment.center,
+                            heightFactor: 0.6,
+                            child: Image.asset(
+                              HomeScreen.aboutButtonAsset,
+                              width: buttonWidth,
+                              fit: BoxFit.contain,
+                              semanticLabel: 'Sobre',
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                    const SizedBox(height: 0),
                   ],
                 ),
               ),
             ),
-          ),
-          Positioned(
-            top: 8,
-            right: 8,
-            child: StatsMenuButton(
-              stats: widget.playerStats,
-              variant: SessionStatsVariant.home,
-              borderRadius: BorderRadius.circular(12),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Image.asset(
-                    HomeScreen.statsButtonAsset,
-                    width: 48,
-                    height: 48,
-                    fit: BoxFit.contain,
-                    semanticLabel: 'Estatísticas',
-                  ),
-                  const SizedBox(height: 2),
-                  const Text(
-                    'Estatísticas',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
+            Positioned(
+              top: statusH + 8,
+              right: 8,
+              child: StatsMenuButton(
+                stats: widget.playerStats,
+                variant: SessionStatsVariant.home,
+                borderRadius: BorderRadius.circular(12),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Image.asset(
+                      HomeScreen.statsButtonAsset,
+                      width: 68,
+                      height: 68,
+                      fit: BoxFit.contain,
+                      semanticLabel: 'Estatísticas',
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 2),
+                    const Text(
+                      'Estatísticas',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

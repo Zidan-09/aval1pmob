@@ -91,11 +91,11 @@ flutter doctor
 Clone o repositório (substitua pela URL real do seu repositório):
 
 ```bash
-git clone https://github.com/Zidan-09/aval1pmob.git
-cd aval1pmob
+git clone https://github.com/Zidan-09/hangman_game.git
+cd hangman_game
 ```
 
-Ou, se já recebeu a pasta do projeto, apenas abra a pasta `aval1pmob` no terminal/VS Code.
+Ou, se já recebeu a pasta do projeto, apenas abra a pasta `hangman_game` no terminal/VS Code.
 
 ### 2. Instalar dependências
 

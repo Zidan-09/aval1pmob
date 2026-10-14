@@ -17,10 +17,6 @@ class PlayerStats {
     loses++;
   }
 
-  void incrementErrors() {
-    errors++;
-  }
-
   void addErrors(int count) {
     errors += count;
   }

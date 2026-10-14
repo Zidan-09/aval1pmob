@@ -46,9 +46,6 @@ class WordChallengeRepositoryImpl implements WordChallengeRepository {
     }
   }
 
-  @override
-  bool get isLoaded => _cache != null;
-
   List<WordChallenge> _requireCache() {
     final cached = _cache;
     if (cached == null) {
@@ -74,11 +71,6 @@ class WordChallengeRepositoryImpl implements WordChallengeRepository {
       );
     }
     _cache = parseChallenges(raw);
-  }
-
-  @override
-  List<WordChallenge> loadAll() {
-    return List.unmodifiable(_requireCache());
   }
 
   @override
@@ -146,13 +138,5 @@ class WordChallengeRepositoryImpl implements WordChallengeRepository {
               !_usedKeys.contains(_usedKey(item)),
         )
         .length;
-  }
-
-  @override
-  int get usedCount => _usedKeys.length;
-
-  @override
-  void resetUsed() {
-    _usedKeys.clear();
   }
 }

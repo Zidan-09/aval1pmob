@@ -48,21 +48,5 @@ class WordChallenge {
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'answer': answer,
-      'category': category.value,
-      'difficulty': difficulty.value,
-      'hints': hints,
-    };
-  }
-
   bool get hasTips => hints.isNotEmpty;
-
-  String consumeTip() {
-    if (hints.isEmpty) {
-      throw StateError('No tips remaining for this challenge.');
-    }
-    return hints.removeAt(0);
-  }
 }

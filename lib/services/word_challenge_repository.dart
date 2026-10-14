@@ -5,10 +5,6 @@ import 'package:aval1pmob/entities/word_challenge.dart';
 abstract class WordChallengeRepository {
   Future<void> init({bool forceReload = false});
 
-  bool get isLoaded;
-
-  List<WordChallenge> loadAll();
-
   List<AnswerCategory> loadCategories();
 
   List<Difficulty> loadDifficulties();
@@ -18,8 +14,4 @@ abstract class WordChallengeRepository {
   WordChallenge draw(AnswerCategory category, Difficulty difficulty);
 
   int remainingCount(AnswerCategory category, Difficulty difficulty);
-
-  int get usedCount;
-
-  void resetUsed();
 }

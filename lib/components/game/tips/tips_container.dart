@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 
 const Duration kTipsAutoCloseDuration = Duration(seconds: 5);
 
-const Color kTipsBackgroundColor = Color(0xFFD9D9D9);
-
 class TipsContainer extends StatefulWidget {
   final WordChallenge challenge;
   final VoidCallback? onHintUsed;

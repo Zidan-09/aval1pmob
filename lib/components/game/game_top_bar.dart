@@ -1,17 +1,22 @@
+import 'package:aval1pmob/components/game/session_stats_dialog.dart';
+import 'package:aval1pmob/components/game/stats_menu_button.dart';
 import 'package:aval1pmob/entities/answer_category.dart';
 import 'package:aval1pmob/entities/difficulty.dart';
+import 'package:aval1pmob/entities/player_stats.dart';
 import 'package:flutter/material.dart';
 
 class GameTopBar extends StatelessWidget {
   final AnswerCategory category;
   final Difficulty difficulty;
-  final VoidCallback? onMenuPressed;
+  final PlayerStats stats;
+  final VoidCallback? onGoHome;
 
   const GameTopBar({
     super.key,
     required this.category,
     required this.difficulty,
-    this.onMenuPressed,
+    required this.stats,
+    this.onGoHome,
   });
 
   @override
@@ -22,8 +27,6 @@ class GameTopBar extends StatelessWidget {
         alignment: Alignment.center,
         children: [
           Padding(
-            // Reserva espaço igual dos dois lados (menu à direita)
-            // para Categoria/Dificuldade ficarem no centro real da tela.
             padding: const EdgeInsets.symmetric(horizontal: 55),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -55,7 +58,18 @@ class GameTopBar extends StatelessWidget {
             alignment: Alignment.centerRight,
             child: Padding(
               padding: const EdgeInsets.only(bottom: 2),
-              child: _MenuButton(onPressed: onMenuPressed),
+              child: StatsMenuButton(
+                stats: stats,
+                variant: SessionStatsVariant.inGame,
+                onGoHome: onGoHome,
+                child: Image.asset(
+                  'lib/assets/images/buttons/pause-button.png',
+                  width: 47,
+                  height: 47,
+                  fit: BoxFit.contain,
+                  semanticLabel: 'Menu',
+                ),
+              ),
             ),
           ),
         ],
@@ -119,31 +133,6 @@ class _InfoCard extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _MenuButton extends StatelessWidget {
-  final VoidCallback? onPressed;
-
-  const _MenuButton({this.onPressed});
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      borderRadius: BorderRadius.circular(13),
-      onTap:
-          onPressed ??
-          () {
-            // TODO: open session stats / back to home. Not implemented yet.
-          },
-      child: Image.asset(
-        'lib/assets/images/buttons/pause-button.png',
-        width: 47,
-        height: 47,
-        fit: BoxFit.contain,
-        semanticLabel: 'Menu',
       ),
     );
   }

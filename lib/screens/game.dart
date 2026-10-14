@@ -3,7 +3,6 @@ import 'package:aval1pmob/components/game/game_top_bar.dart';
 import 'package:aval1pmob/components/game/hangman_figure.dart';
 import 'package:aval1pmob/components/game/tips_container.dart';
 import 'package:aval1pmob/components/game/virtual_keyboard.dart';
-import 'package:aval1pmob/components/game/session_stats_dialog.dart';
 import 'package:aval1pmob/entities/answer_category.dart';
 import 'package:aval1pmob/entities/difficulty.dart';
 import 'package:aval1pmob/entities/game_round.dart';
@@ -14,7 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:aval1pmob/components/game/round_result_dialog.dart';
 
 class GameScreen extends StatefulWidget {
-  static const String backgroundAsset = 'lib/assets/images/backgrounds/game-black-background.png';
+  static const String backgroundAsset =
+      'lib/assets/images/backgrounds/game-black-background.png';
   static const String jumpscareAsset = 'lib/assets/images/sonic/jumpscary.jpg';
   static const Duration jumpscareDuration = Duration(seconds: 3);
 
@@ -196,20 +196,6 @@ class _GameScreenState extends State<GameScreen> {
     });
   }
 
-  void _openSessionStats() {
-    showDialog<void>(
-      context: context,
-      builder: (dialogContext) => SessionStatsDialog(
-        stats: widget.playerStats,
-        variant: SessionStatsVariant.inGame,
-        onGoHome: () {
-          Navigator.of(dialogContext).pop();
-          Navigator.of(context).pop();
-        },
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -233,8 +219,8 @@ class _GameScreenState extends State<GameScreen> {
                   child: GameTopBar(
                     category: widget.category,
                     difficulty: widget.difficulty,
-                    // TODO: implement menu behavior (session stats / back to home).
-                    onMenuPressed: _openSessionStats,
+                    stats: widget.playerStats,
+                    onGoHome: () => Navigator.of(context).pop(),
                   ),
                 ),
                 Expanded(

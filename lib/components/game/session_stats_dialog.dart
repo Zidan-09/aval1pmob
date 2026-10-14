@@ -37,7 +37,7 @@ class SessionStatsDialog extends StatelessWidget {
       ),
       child: ConstrainedBox(
         constraints: BoxConstraints(
-          maxWidth: 500,
+          maxWidth: 400,
           maxHeight: size.height * 0.90,
         ),
         child: Container(
@@ -68,7 +68,7 @@ class SessionStatsDialog extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 17),
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.symmetric(
@@ -95,7 +95,7 @@ class SessionStatsDialog extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 17),
                 if (variant == SessionStatsVariant.inGame)
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -106,19 +106,34 @@ class SessionStatsDialog extends StatelessWidget {
                           backgroundColor: const Color(0xFF3A3A46),
                           foregroundColor: Colors.white,
                           shape: const StadiumBorder(),
+                          textStyle: const TextStyle(fontSize: 16),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 16,
+                          ),
+                          minimumSize: const Size(0, 32),
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        
                           side: const BorderSide(color: Colors.white24),
                         ),
-                        child: const Text('IR PARA HOME'),
+                        child: const Text('Tela incial'),
                       ),
-                      const SizedBox(width: 12),
+                      const SizedBox(width: 10),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.amber,
                           foregroundColor: Colors.black,
                           shape: const StadiumBorder(),
+                          textStyle: const TextStyle(fontSize: 16),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 16,
+                          ),
+                          minimumSize: const Size(0, 32),
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
                         onPressed: () => Navigator.of(context).pop(),
-                        child: const Text('CONTINUAR'),
+                        child: const Text('Continuar'),
                       ),
                     ],
                   )
@@ -131,9 +146,17 @@ class SessionStatsDialog extends StatelessWidget {
                           backgroundColor: Colors.amber,
                           foregroundColor: Colors.black,
                           shape: const StadiumBorder(),
+                          textStyle: const TextStyle(fontSize: 16),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 12,
+                          ),
+                          minimumSize: const Size(0, 32),
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
+                        
                         onPressed: () => Navigator.of(context).pop(),
-                        child: const Text('FECHAR'),
+                        child: const Text('Fechar'),
                       ),
                     ],
                   ),

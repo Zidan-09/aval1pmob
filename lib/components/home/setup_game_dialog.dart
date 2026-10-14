@@ -244,7 +244,7 @@ class _SetupGameDialogState extends State<SetupGameDialog> {
                       style: TextButton.styleFrom(
                         foregroundColor: Colors.white,
                       ),
-                      child: const Text('CANCELAR'),
+                      child: const Text('Cancelar'),
                     ),
                     const SizedBox(width: 8),
                     ElevatedButton(
@@ -260,7 +260,7 @@ class _SetupGameDialogState extends State<SetupGameDialog> {
                               selectedDifficulty,
                             )
                           : null,
-                      child: const Text('JOGAR'),
+                      child: const Text('Jogar'),
                     ),
                   ],
                 ),

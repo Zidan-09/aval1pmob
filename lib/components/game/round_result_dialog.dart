@@ -7,7 +7,7 @@ class RoundResultDialog extends StatelessWidget {
   final int errors;
   final int maxErrors;
   final bool hintUsed;
-  final String selectionLabel; // ex: "Animais • Fácil"
+  final String selectionLabel;
   final VoidCallback onNewRound;
   final VoidCallback onChangeSelection;
   final VoidCallback onGoHome;

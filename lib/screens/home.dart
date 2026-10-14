@@ -1,4 +1,5 @@
 import 'package:aval1pmob/components/game/session_stats_dialog.dart';
+import 'package:aval1pmob/components/game/stats_menu_button.dart';
 import 'package:aval1pmob/components/home/setup_game_dialog.dart';
 import 'package:aval1pmob/entities/answer_category.dart';
 import 'package:aval1pmob/entities/difficulty.dart';
@@ -9,12 +10,9 @@ import 'package:aval1pmob/services/word_challenge_repository.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
-  static const String backgroundAsset =
-      'lib/assets/images/backgrounds/home-background.png';
-  static const String startButtonAsset =
-      'lib/assets/images/buttons/start-button.png';
-  static const String aboutButtonAsset =
-      'lib/assets/images/buttons/about-button.png';
+  static const String backgroundAsset = 'lib/assets/images/backgrounds/home-background.png';
+  static const String startButtonAsset = 'lib/assets/images/buttons/start-button.png';
+  static const String aboutButtonAsset = 'lib/assets/images/buttons/about-button.png';
 
   final WordChallengeRepository repository;
   final PlayerStats playerStats;
@@ -189,17 +187,19 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           Positioned(
             top: 8,
             right: 8,
-            child: Material(
-              color: Colors.black54,
-              shape: const CircleBorder(),
-              child: IconButton(
-                icon: const Icon(Icons.bar_chart, color: Colors.white),
-                tooltip: 'Estatísticas',
-                onPressed: () => showDialog<void>(
-                  context: context, // context do build da Home
-                  builder: (_) => SessionStatsDialog(
-                    stats: widget.playerStats, // mesmo objeto do jogo
-                    variant: SessionStatsVariant.home, // só mostra Fechar
+            child: StatsMenuButton(
+              stats: widget.playerStats,
+              variant: SessionStatsVariant.home,
+              borderRadius: BorderRadius.circular(24),
+              child: const Tooltip(
+                message: 'Estatísticas',
+                child: Material(
+                  color: Colors.black54,
+                  shape: CircleBorder(),
+                  child: SizedBox(
+                    width: 48,
+                    height: 48,
+                    child: Icon(Icons.bar_chart, color: Colors.white),
                   ),
                 ),
               ),

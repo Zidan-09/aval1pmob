@@ -17,7 +17,7 @@ Future<void> main() async {
     return;
   }
 
-  runApp(MyApp(repository: repository, playerStats: playerStats,));
+  runApp(MyApp(repository: repository, playerStats: playerStats));
 }
 
 class MyApp extends StatelessWidget {
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Jogo da Forca do Sonic.exe',
       theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
-      home: HomeScreen(repository: repository, playerStats: playerStats,),
+      home: HomeScreen(repository: repository, playerStats: playerStats),
     );
   }
 }

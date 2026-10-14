@@ -114,10 +114,7 @@ class WordChallengeRepositoryImpl implements WordChallengeRepository {
   }
 
   @override
-  List<WordChallenge> findBy(
-    AnswerCategory category,
-    Difficulty difficulty,
-  ) {
+  List<WordChallenge> findBy(AnswerCategory category, Difficulty difficulty) {
     final challenges = _requireCache();
     final filtered = challenges
         .where(
@@ -128,10 +125,7 @@ class WordChallengeRepositoryImpl implements WordChallengeRepository {
   }
 
   @override
-  WordChallenge draw(
-    AnswerCategory category,
-    Difficulty difficulty,
-  ) {
+  WordChallenge draw(AnswerCategory category, Difficulty difficulty) {
     final candidates = findBy(category, difficulty);
     if (candidates.isEmpty) {
       throw NoAnswersAvailableException(
@@ -176,5 +170,3 @@ class WordChallengeRepositoryImpl implements WordChallengeRepository {
     _usedKeys.clear();
   }
 }
-
-typedef WordChallengeRepositoryIpl = WordChallengeRepositoryImpl;

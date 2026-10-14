@@ -1,9 +1,4 @@
-enum AnswerCategory { 
-  animals, 
-  humanBody, 
-  sports, 
-  technology 
-}
+enum AnswerCategory { animals, humanBody, sports, technology }
 
 extension AnswerCategoryMapper on AnswerCategory {
   static AnswerCategory fromValue(String value) {

@@ -1,9 +1,9 @@
 class PlayerStats {
-  num games = 0;
-  num wins = 0;
-  num loses = 0;
-  num errors = 0;
-  num tipsUseds = 0;
+  int games = 0;
+  int wins = 0;
+  int loses = 0;
+  int errors = 0;
+  int tipsUseds = 0;
 
   void incrementGames() {
     games++;
@@ -29,13 +29,13 @@ class PlayerStats {
     tipsUseds++;
   }
 
-double get winsPercentage {
-  if (games == 0) return 0;
-  return wins / games * 100;
-}
+  double get winsPercentage {
+    if (games == 0) return 0;
+    return wins / games * 100;
+  }
 
-double get lossesPercentage {
-  if (games == 0) return 0;
-  return loses / games * 100;
-}
+  double get lossesPercentage {
+    if (games == 0) return 0;
+    return loses / games * 100;
+  }
 }

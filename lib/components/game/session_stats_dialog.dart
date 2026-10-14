@@ -21,9 +21,9 @@ class SessionStatsDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final total = stats.games.toInt();
-    final wins = stats.wins.toInt();
-    final losses = stats.loses.toInt();
+    final total = stats.games;
+    final wins = stats.wins;
+    final losses = stats.loses;
     final winPct = stats.winsPercentage.toStringAsFixed(1);
     final lossPct = stats.lossesPercentage.toStringAsFixed(1);
 
@@ -110,7 +110,7 @@ class SessionStatsDialog extends StatelessWidget {
                           ),
                         ),
                     child: const Text(
-                      'Tela incial',
+                      'Tela inicial',
                       maxLines: 1,
                       softWrap: false,
                       overflow: TextOverflow.ellipsis,

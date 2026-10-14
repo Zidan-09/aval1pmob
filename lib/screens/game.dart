@@ -1,18 +1,19 @@
-import 'package:aval1pmob/components/status_bar_background.dart';
 import 'package:aval1pmob/components/game/answer_display.dart';
 import 'package:aval1pmob/components/game/game_top_bar.dart';
 import 'package:aval1pmob/components/game/hangman_figure.dart';
+import 'package:aval1pmob/components/game/round_result_dialog.dart';
 import 'package:aval1pmob/components/game/tips_container.dart';
 import 'package:aval1pmob/components/game/virtual_keyboard.dart';
+import 'package:aval1pmob/components/status_bar_background.dart';
 import 'package:aval1pmob/entities/answer_category.dart';
 import 'package:aval1pmob/entities/difficulty.dart';
 import 'package:aval1pmob/entities/game_round.dart';
 import 'package:aval1pmob/entities/player_stats.dart';
 import 'package:aval1pmob/screens/home.dart';
 import 'package:aval1pmob/services/word_challenge_repository.dart';
+import 'package:aval1pmob/utils/word_challenge_repository_imp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:aval1pmob/components/game/round_result_dialog.dart';
 
 class GameScreen extends StatefulWidget {
   static const String backgroundAsset =
@@ -181,7 +182,7 @@ class _GameScreenState extends State<GameScreen> {
       next = GameRound(
         challenge: widget.repository.draw(widget.category, widget.difficulty),
       );
-    } on StateError {
+    } on NoAnswersAvailableException {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(

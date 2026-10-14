@@ -13,10 +13,7 @@ abstract class WordChallengeRepository {
 
   List<Difficulty> loadDifficulties();
 
-  List<WordChallenge> findBy(
-    AnswerCategory category,
-    Difficulty difficulty,
-  );
+  List<WordChallenge> findBy(AnswerCategory category, Difficulty difficulty);
 
   WordChallenge draw(AnswerCategory category, Difficulty difficulty);
 

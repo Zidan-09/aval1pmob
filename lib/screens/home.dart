@@ -1,13 +1,13 @@
 import 'package:aval1pmob/components/game/session_stats_dialog.dart';
 import 'package:aval1pmob/components/game/stats_menu_button.dart';
 import 'package:aval1pmob/components/home/setup_game_dialog.dart';
+import 'package:aval1pmob/components/status_bar_background.dart';
 import 'package:aval1pmob/entities/answer_category.dart';
 import 'package:aval1pmob/entities/difficulty.dart';
 import 'package:aval1pmob/entities/player_stats.dart';
 import 'package:aval1pmob/screens/about.dart';
 import 'package:aval1pmob/screens/game.dart';
 import 'package:aval1pmob/services/word_challenge_repository.dart';
-import 'package:aval1pmob/components/status_bar_background.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

@@ -137,6 +137,7 @@ class SessionStatsDialog extends StatelessWidget {
                       ),
                     ],
                   )
+                  
                 else
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,

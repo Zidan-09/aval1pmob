@@ -1,3 +1,5 @@
+import 'package:aval1pmob/components/dialog/popup_panel.dart';
+import 'package:aval1pmob/components/dialog/popup_style.dart';
 import 'package:aval1pmob/entities/player_stats.dart';
 import 'package:flutter/material.dart';
 
@@ -25,145 +27,131 @@ class SessionStatsDialog extends StatelessWidget {
     final winPct = stats.winsPercentage.toStringAsFixed(1);
     final lossPct = stats.lossesPercentage.toStringAsFixed(1);
 
-    final size = MediaQuery.sizeOf(context);
-    final sidePadding = (size.width * 0.10).clamp(36.0, 52.0);
+    final style = PopupStyle.resolve(
+      MediaQuery.sizeOf(context),
+      maxDialogWidth: 400,
+    );
 
-    return Dialog(
-      backgroundColor: Colors.transparent,
-      elevation: 0,
-      insetPadding: EdgeInsets.symmetric(
-        horizontal: size.width * 0.04,
-        vertical: size.height * 0.05,
-      ),
-      child: ConstrainedBox(
-        constraints: BoxConstraints(
-          maxWidth: 400,
-          maxHeight: size.height * 0.90,
-        ),
-        child: Container(
-          width: double.infinity,
-          clipBehavior: Clip.hardEdge,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            image: const DecorationImage(
-              image: AssetImage(popupAsset),
-              fit: BoxFit.fill,
-              centerSlice: Rect.fromLTWH(24, 24, 460, 444),
+    return PopupPanel(
+      backgroundAsset: popupAsset,
+      style: style,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Center(
+            child: Text(
+              'Estatísticas da sessão',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: style.titleSize,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
-          child: SingleChildScrollView(
-            padding: EdgeInsets.fromLTRB(sidePadding, 56, sidePadding, 48),
+          SizedBox(height: style.gapSection),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+            decoration: BoxDecoration(
+              color: Colors.white10,
+              borderRadius: BorderRadius.circular(12),
+            ),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Center(
-                  child: Text(
-                    'Estatísticas da sessão',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                _StatRow(
+                  label: 'Rodadas',
+                  value: '$total',
+                  fontSize: style.labelSize,
                 ),
-                const SizedBox(height: 17),
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 14,
-                    vertical: 12,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.white10,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      _StatRow(label: 'Rodadas', value: '$total'),
-                      _StatRow(label: 'Vitórias', value: '$wins ($winPct%)'),
-                      _StatRow(label: 'Derrotas', value: '$losses ($lossPct%)'),
-                      _StatRow(label: 'Erros totais', value: '${stats.errors}'),
-                      _StatRow(
-                        label: 'Dicas usadas',
-                        value: '${stats.tipsUseds}',
-                        isLast: true,
-                      ),
-                    ],
-                  ),
+                _StatRow(
+                  label: 'Vitórias',
+                  value: '$wins ($winPct%)',
+                  fontSize: style.labelSize,
                 ),
-                const SizedBox(height: 17),
-                if (variant == SessionStatsVariant.inGame)
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      ElevatedButton(
-                        onPressed: onGoHome,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF3A3A46),
-                          foregroundColor: Colors.white,
-                          shape: const StadiumBorder(),
-                          textStyle: const TextStyle(fontSize: 16),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 16,
-                          ),
-                          minimumSize: const Size(0, 32),
-                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        
-                          side: const BorderSide(color: Colors.white24),
-                        ),
-                        child: const Text('Tela incial'),
-                      ),
-                      const SizedBox(width: 10),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.amber,
-                          foregroundColor: Colors.black,
-                          shape: const StadiumBorder(),
-                          textStyle: const TextStyle(fontSize: 16),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 16,
-                          ),
-                          minimumSize: const Size(0, 32),
-                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        ),
-                        onPressed: () => Navigator.of(context).pop(),
-                        child: const Text('Continuar'),
-                      ),
-                    ],
-                  )
-                else
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.amber,
-                          foregroundColor: Colors.black,
-                          shape: const StadiumBorder(),
-                          textStyle: const TextStyle(fontSize: 16),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 12,
-                          ),
-                          minimumSize: const Size(0, 32),
-                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        ),
-                        
-                        onPressed: () => Navigator.of(context).pop(),
-                        child: const Text('Fechar'),
-                      ),
-                    ],
-                  ),
+                _StatRow(
+                  label: 'Derrotas',
+                  value: '$losses ($lossPct%)',
+                  fontSize: style.labelSize,
+                ),
+                _StatRow(
+                  label: 'Erros totais',
+                  value: '${stats.errors}',
+                  fontSize: style.labelSize,
+                ),
+                _StatRow(
+                  label: 'Dicas usadas',
+                  value: '${stats.tipsUseds}',
+                  fontSize: style.labelSize,
+                  isLast: true,
+                ),
               ],
             ),
           ),
-        ),
+          SizedBox(height: style.gapSection),
+          if (variant == SessionStatsVariant.inGame)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Flexible(
+                  child: ElevatedButton(
+                    onPressed: onGoHome,
+                    style:
+                        popupButtonStyle(
+                          popupOptionBackground,
+                          Colors.white,
+                          style,
+                        ).copyWith(
+                          side: const WidgetStatePropertyAll(
+                            BorderSide(color: popupOptionBorder),
+                          ),
+                        ),
+                    child: const Text(
+                      'Tela incial',
+                      maxLines: 1,
+                      softWrap: false,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Flexible(
+                  child: ElevatedButton(
+                    style: popupButtonStyle(
+                      popupPrimaryBackground,
+                      Colors.black,
+                      style,
+                    ),
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text(
+                      'Continuar',
+                      maxLines: 1,
+                      softWrap: false,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ),
+              ],
+            )
+          else
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                ElevatedButton(
+                  style: popupButtonStyle(
+                    popupPrimaryBackground,
+                    Colors.black,
+                    style,
+                  ),
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: const Text('Fechar'),
+                ),
+              ],
+            ),
+        ],
       ),
     );
   }
@@ -172,11 +160,13 @@ class SessionStatsDialog extends StatelessWidget {
 class _StatRow extends StatelessWidget {
   final String label;
   final String value;
+  final double fontSize;
   final bool isLast;
 
   const _StatRow({
     required this.label,
     required this.value,
+    required this.fontSize,
     this.isLast = false,
   });
 
@@ -189,14 +179,20 @@ class _StatRow extends StatelessWidget {
         children: [
           Text(
             label,
-            style: const TextStyle(color: Colors.white70, fontSize: 14),
+            style: TextStyle(color: Colors.white70, fontSize: fontSize),
           ),
-          Text(
-            value,
-            style: const TextStyle(
-              color: Colors.amber,
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
+          Flexible(
+            child: Text(
+              value,
+              textAlign: TextAlign.end,
+              maxLines: 1,
+              softWrap: false,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: popupPrimaryBackground,
+                fontSize: fontSize,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ],

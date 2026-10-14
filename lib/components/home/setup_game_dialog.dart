@@ -120,21 +120,6 @@ class _SetupGameDialogState extends State<SetupGameDialog> {
     );
   }
 
-  ButtonStyle _buttonStyle(Color bg, Color fg, PopupStyle style) {
-    return ElevatedButton.styleFrom(
-      backgroundColor: bg,
-      foregroundColor: fg,
-      shape: const StadiumBorder(),
-      textStyle: TextStyle(fontSize: style.btnFontSize),
-      padding: EdgeInsets.symmetric(
-        horizontal: style.narrow ? 12 : 16,
-        vertical: style.narrow ? 8 : 10,
-      ),
-      minimumSize: Size(0, style.narrow ? 32 : 36),
-      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-    );
-  }
-
   List<Widget> _chipSection<T>({
     required String title,
     required PopupStyle style,
@@ -209,7 +194,7 @@ class _SetupGameDialogState extends State<SetupGameDialog> {
       children: [
         ElevatedButton(
           onPressed: () => Navigator.of(context).pop(),
-          style: _buttonStyle(popupOptionBackground, Colors.white, style)
+          style: popupButtonStyle(popupOptionBackground, Colors.white, style)
               .copyWith(
                 side: const WidgetStatePropertyAll(
                   BorderSide(color: popupOptionBorder),
@@ -219,7 +204,7 @@ class _SetupGameDialogState extends State<SetupGameDialog> {
         ),
         const SizedBox(width: 8),
         ElevatedButton(
-          style: _buttonStyle(popupPrimaryBackground, Colors.black, style),
+          style: popupButtonStyle(popupPrimaryBackground, Colors.black, style),
           onPressed: canPlay
               ? () => widget.startGame(
                   context,

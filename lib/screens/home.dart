@@ -10,9 +10,14 @@ import 'package:aval1pmob/services/word_challenge_repository.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
-  static const String backgroundAsset = 'lib/assets/images/backgrounds/home-background.png';
-  static const String startButtonAsset = 'lib/assets/images/buttons/start-button.png';
-  static const String aboutButtonAsset = 'lib/assets/images/buttons/about-button.png';
+  static const String backgroundAsset =
+      'lib/assets/images/backgrounds/home-background.png';
+  static const String startButtonAsset =
+      'lib/assets/images/buttons/start-button.png';
+  static const String aboutButtonAsset =
+      'lib/assets/images/buttons/about-button.png';
+  static const String statsButtonAsset =
+      'lib/assets/images/buttons/stats-button.png';
 
   final WordChallengeRepository repository;
   final PlayerStats playerStats;
@@ -74,6 +79,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     precacheImage(const AssetImage(HomeScreen.backgroundAsset), context);
     precacheImage(const AssetImage(HomeScreen.startButtonAsset), context);
     precacheImage(const AssetImage(HomeScreen.aboutButtonAsset), context);
+    precacheImage(const AssetImage(HomeScreen.statsButtonAsset), context);
   }
 
   Future<void> _onStartTap() async {
@@ -190,18 +196,27 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             child: StatsMenuButton(
               stats: widget.playerStats,
               variant: SessionStatsVariant.home,
-              borderRadius: BorderRadius.circular(24),
-              child: const Tooltip(
-                message: 'Estatísticas',
-                child: Material(
-                  color: Colors.black54,
-                  shape: CircleBorder(),
-                  child: SizedBox(
+              borderRadius: BorderRadius.circular(12),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Image.asset(
+                    HomeScreen.statsButtonAsset,
                     width: 48,
                     height: 48,
-                    child: Icon(Icons.bar_chart, color: Colors.white),
+                    fit: BoxFit.contain,
+                    semanticLabel: 'Estatísticas',
                   ),
-                ),
+                  const SizedBox(height: 2),
+                  const Text(
+                    'Estatísticas',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),

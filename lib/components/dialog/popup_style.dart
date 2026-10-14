@@ -69,3 +69,18 @@ class PopupStyle {
     );
   }
 }
+
+ButtonStyle popupButtonStyle(Color bg, Color fg, PopupStyle style) {
+  return ElevatedButton.styleFrom(
+    backgroundColor: bg,
+    foregroundColor: fg,
+    shape: const StadiumBorder(),
+    textStyle: TextStyle(fontSize: style.btnFontSize),
+    padding: EdgeInsets.symmetric(
+      horizontal: style.narrow ? 12 : 16,
+      vertical: style.narrow ? 8 : 10,
+    ),
+    minimumSize: Size(0, style.narrow ? 32 : 36),
+    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+  );
+}

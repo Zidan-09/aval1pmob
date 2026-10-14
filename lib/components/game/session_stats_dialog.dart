@@ -1,9 +1,10 @@
 import 'package:aval1pmob/components/dialog/popup_panel.dart';
 import 'package:aval1pmob/components/dialog/popup_style.dart';
+import 'package:aval1pmob/components/dialog/popup_title.dart';
+import 'package:aval1pmob/components/game/session_stat_row.dart';
+import 'package:aval1pmob/components/game/session_stats_variant.dart';
 import 'package:aval1pmob/entities/player_stats.dart';
 import 'package:flutter/material.dart';
-
-enum SessionStatsVariant { home, inGame }
 
 class SessionStatsDialog extends StatelessWidget {
   static const String popupAsset = 'lib/assets/images/buttons/panel-popup.png';
@@ -39,17 +40,7 @@ class SessionStatsDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Center(
-            child: Text(
-              'Estatísticas da sessão',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: style.titleSize,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
+          PopupTitle(text: 'Estatísticas da sessão', style: style),
           SizedBox(height: style.gapSection),
           Container(
             width: double.infinity,
@@ -62,27 +53,27 @@ class SessionStatsDialog extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                _StatRow(
+                SessionStatRow(
                   label: 'Rodadas',
                   value: '$total',
                   fontSize: style.labelSize,
                 ),
-                _StatRow(
+                SessionStatRow(
                   label: 'Vitórias',
                   value: '$wins ($winPct%)',
                   fontSize: style.labelSize,
                 ),
-                _StatRow(
+                SessionStatRow(
                   label: 'Derrotas',
                   value: '$losses ($lossPct%)',
                   fontSize: style.labelSize,
                 ),
-                _StatRow(
+                SessionStatRow(
                   label: 'Erros totais',
                   value: '${stats.errors}',
                   fontSize: style.labelSize,
                 ),
-                _StatRow(
+                SessionStatRow(
                   label: 'Dicas usadas',
                   value: '${stats.tipsUseds}',
                   fontSize: style.labelSize,
@@ -151,50 +142,6 @@ class SessionStatsDialog extends StatelessWidget {
                 ),
               ],
             ),
-        ],
-      ),
-    );
-  }
-}
-
-class _StatRow extends StatelessWidget {
-  final String label;
-  final String value;
-  final double fontSize;
-  final bool isLast;
-
-  const _StatRow({
-    required this.label,
-    required this.value,
-    required this.fontSize,
-    this.isLast = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: isLast ? 0 : 6),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            label,
-            style: TextStyle(color: Colors.white70, fontSize: fontSize),
-          ),
-          Flexible(
-            child: Text(
-              value,
-              textAlign: TextAlign.end,
-              maxLines: 1,
-              softWrap: false,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                color: popupPrimaryBackground,
-                fontSize: fontSize,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
         ],
       ),
     );

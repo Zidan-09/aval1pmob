@@ -1,24 +1,12 @@
 import 'package:aval1pmob/components/dialog/popup_panel.dart';
 import 'package:aval1pmob/components/dialog/popup_style.dart';
+import 'package:aval1pmob/components/dialog/popup_title.dart';
+import 'package:aval1pmob/components/home/popup_choice_chip.dart';
+import 'package:aval1pmob/components/home/setup_section_label.dart';
 import 'package:aval1pmob/entities/answer_category.dart';
 import 'package:aval1pmob/entities/difficulty.dart';
 import 'package:aval1pmob/services/word_challenge_repository.dart';
 import 'package:flutter/material.dart';
-
-class _SectionLabel extends StatelessWidget {
-  final String text;
-  final PopupStyle style;
-
-  const _SectionLabel(this.text, this.style);
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: TextStyle(color: Colors.white54, fontSize: style.labelSize),
-    );
-  }
-}
 
 class SetupGameDialog extends StatefulWidget {
   static const String popupAsset = 'lib/assets/images/buttons/panel-popup.png';
@@ -79,44 +67,17 @@ class _SetupGameDialogState extends State<SetupGameDialog> {
     return rows;
   }
 
-  ChoiceChip _buildChip({
+  PopupChoiceChip _buildChip({
     required String label,
     required bool isSelected,
     required PopupStyle style,
     required VoidCallback onTap,
   }) {
-    return ChoiceChip(
-      label: SizedBox(
-        width: double.infinity,
-        child: Text(
-          label,
-          textAlign: TextAlign.center,
-          maxLines: 1,
-          softWrap: false,
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
-      selected: isSelected,
-      showCheckmark: false,
-      backgroundColor: popupOptionBackground,
-      selectedColor: popupSelectedBackground,
-      visualDensity: VisualDensity.compact,
-      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-      labelPadding: EdgeInsets.symmetric(horizontal: style.narrow ? 2 : 8),
-      padding: EdgeInsets.symmetric(
-        horizontal: style.narrow ? 4 : 8,
-        vertical: style.narrow ? 2 : 4,
-      ),
-      labelStyle: TextStyle(
-        fontSize: style.chipFontSize,
-        color: isSelected ? Colors.white : Colors.white70,
-      ),
-      shape: StadiumBorder(
-        side: BorderSide(
-          color: isSelected ? popupSelectedBackground : popupOptionBorder,
-        ),
-      ),
-      onSelected: (_) => onTap(),
+    return PopupChoiceChip(
+      label: label,
+      isSelected: isSelected,
+      style: style,
+      onTap: onTap,
     );
   }
 
@@ -130,7 +91,7 @@ class _SetupGameDialogState extends State<SetupGameDialog> {
     required void Function(T item) onSelect,
   }) {
     return [
-      _SectionLabel(title, style),
+      SetupSectionLabel(title, style),
       SizedBox(height: style.gapLabel),
       ..._chipRows<T>(
         items: items,
@@ -234,16 +195,7 @@ class _SetupGameDialogState extends State<SetupGameDialog> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Center(
-            child: Text(
-              'Nova partida',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: style.titleSize,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
+          PopupTitle(text: 'Nova partida', style: style),
           SizedBox(height: style.gapSection),
           ..._chipSection<AnswerCategory>(
             title: 'Categoria',
@@ -265,7 +217,7 @@ class _SetupGameDialogState extends State<SetupGameDialog> {
             onSelect: (difficulty) => selectedDifficulty = difficulty,
           ),
           SizedBox(height: style.gapSection),
-          _SectionLabel('Seleção', style),
+          SetupSectionLabel('Seleção', style),
           SizedBox(height: style.gapLabel),
           _buildSelectionCard(style, remaining, canPlay),
           SizedBox(height: style.gapSection),

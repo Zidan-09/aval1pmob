@@ -1,4 +1,6 @@
 import 'package:aval1pmob/components/game/hangman_figure.dart';
+import 'package:aval1pmob/components/game/result_ghost_button.dart';
+import 'package:aval1pmob/components/game/result_metric.dart';
 import 'package:flutter/material.dart';
 
 class RoundResultDialog extends StatelessWidget {
@@ -73,51 +75,14 @@ class RoundResultDialog extends StatelessWidget {
                 const Divider(color: Colors.white24, height: 24),
                 Row(
                   children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Erros',
-                            style: TextStyle(
-                              color: Colors.white60,
-                              fontSize: 12,
-                            ),
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            '$errors/$maxErrors',
-                            style: TextStyle(
-                              color: won ? Colors.white : Colors.redAccent,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
+                    ResultMetric(
+                      label: 'Erros',
+                      value: '$errors/$maxErrors',
+                      valueColor: won ? Colors.white : Colors.redAccent,
                     ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Dica utilizada',
-                            style: TextStyle(
-                              color: Colors.white60,
-                              fontSize: 12,
-                            ),
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            hintUsed ? 'Sim' : 'Não',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
+                    ResultMetric(
+                      label: 'Dica utilizada',
+                      value: hintUsed ? 'Sim' : 'Não',
                     ),
                   ],
                 ),
@@ -156,36 +121,16 @@ class RoundResultDialog extends StatelessWidget {
         const SizedBox(height: 12),
         Row(
           children: [
-            Expanded(
-              child: OutlinedButton.icon(
-                onPressed: onGoHome,
-                icon: const Icon(Icons.home_outlined, size: 16),
-                label: const Text('Início'),
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  side: const BorderSide(color: Colors.white24),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(28),
-                  ),
-                  minimumSize: const Size.fromHeight(44),
-                ),
-              ),
+            ResultGhostButton(
+              icon: Icons.home_outlined,
+              label: 'Início',
+              onPressed: onGoHome,
             ),
             const SizedBox(width: 8),
-            Expanded(
-              child: OutlinedButton.icon(
-                onPressed: onChangeSelection,
-                icon: const Icon(Icons.swap_horiz, size: 16),
-                label: const Text('Trocar'),
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  side: const BorderSide(color: Colors.white24),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(28),
-                  ),
-                  minimumSize: const Size.fromHeight(44),
-                ),
-              ),
+            ResultGhostButton(
+              icon: Icons.swap_horiz,
+              label: 'Trocar',
+              onPressed: onChangeSelection,
             ),
           ],
         ),

@@ -6,23 +6,9 @@ import 'package:aval1pmob/entities/difficulty.dart';
 import 'package:aval1pmob/entities/word_challenge.dart';
 import 'package:aval1pmob/services/word_challenge_repository.dart';
 import 'package:aval1pmob/utils/json_mapper.dart';
+import 'package:aval1pmob/utils/no_answers_available_exception.dart';
+import 'package:aval1pmob/utils/word_challenge_load_exception.dart';
 import 'package:flutter/services.dart';
-
-class WordChallengeLoadException implements Exception {
-  final String message;
-  final Object? cause;
-
-  const WordChallengeLoadException(this.message, [this.cause]);
-
-  @override
-  String toString() =>
-      'WordChallengeLoadException: $message'
-      '${cause == null ? '' : ' ($cause)'}';
-}
-
-class NoAnswersAvailableException extends StateError {
-  NoAnswersAvailableException(super.message);
-}
 
 class WordChallengeRepositoryImpl implements WordChallengeRepository {
   static const String assetPath = 'lib/assets/data/hangman.json';

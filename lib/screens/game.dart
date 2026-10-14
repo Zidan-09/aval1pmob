@@ -1,19 +1,19 @@
-import 'package:aval1pmob/components/game/answer_display.dart';
+import 'package:aval1pmob/components/app/app_scaffold.dart';
+import 'package:aval1pmob/components/game/game_board.dart';
 import 'package:aval1pmob/components/game/game_top_bar.dart';
-import 'package:aval1pmob/components/game/hangman_figure.dart';
+import 'package:aval1pmob/components/game/jumpscare_overlay.dart';
 import 'package:aval1pmob/components/game/round_result_dialog.dart';
 import 'package:aval1pmob/components/game/tips_container.dart';
 import 'package:aval1pmob/components/game/virtual_keyboard.dart';
-import 'package:aval1pmob/components/status_bar_background.dart';
 import 'package:aval1pmob/entities/answer_category.dart';
 import 'package:aval1pmob/entities/difficulty.dart';
 import 'package:aval1pmob/entities/game_round.dart';
+import 'package:aval1pmob/entities/guess_outcome.dart';
 import 'package:aval1pmob/entities/player_stats.dart';
 import 'package:aval1pmob/screens/home.dart';
 import 'package:aval1pmob/services/word_challenge_repository.dart';
-import 'package:aval1pmob/utils/word_challenge_repository_imp.dart';
+import 'package:aval1pmob/utils/no_answers_available_exception.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class GameScreen extends StatefulWidget {
   static const String backgroundAsset =
@@ -119,19 +119,8 @@ class _GameScreenState extends State<GameScreen> {
       context: context,
       barrierDismissible: false,
       barrierColor: Colors.black,
-      builder: (_) => const PopScope(
-        canPop: false,
-        child: Dialog(
-          backgroundColor: Colors.black,
-          insetPadding: EdgeInsets.zero,
-          child: SizedBox.expand(
-            child: Image(
-              image: AssetImage(GameScreen.jumpscareAsset),
-              fit: BoxFit.cover,
-            ),
-          ),
-        ),
-      ),
+      builder: (_) =>
+          const JumpscareOverlay(imageAsset: GameScreen.jumpscareAsset),
     );
     await Future.delayed(GameScreen.jumpscareDuration);
     if (!mounted) return;
@@ -201,82 +190,54 @@ class _GameScreenState extends State<GameScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle.light,
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            Container(
-              width: double.infinity,
-              height: double.infinity,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(GameScreen.backgroundAsset),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              child: SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(16, 12, 4, 0),
-                        child: GameTopBar(
-                          category: widget.category,
-                          difficulty: widget.difficulty,
-                          stats: widget.playerStats,
-                          onGoHome: () => Navigator.of(context).pop(),
-                        ),
-                      ),
-                      Expanded(
-                        child: Center(
-                          child: SingleChildScrollView(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                HangmanFigure(errors: round.errors, size: 320),
-                                const SizedBox(height: 8),
-                                Text(
-                                  'Erros: ${round.errors}/${GameRound.maxErrors}',
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const SizedBox(height: 12),
-                                AnswerDisplay(round: round),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 16),
-                        child: TipsContainer(
-                          key: ValueKey(round.challenge.answer),
-                          challenge: round.challenge,
-                          onHintUsed: onHintUsed,
-                        ),
-                      ),
-                      VirtualKeyboard(
-                        usedLetters: round.guessedLetters,
-                        enabled: !round.isFinished,
-                        onKeyPressed: onKeyPressed,
-                      ),
-                    ],
+    return AppScaffold(
+      backgrounds: [
+        Container(
+          width: double.infinity,
+          height: double.infinity,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(GameScreen.backgroundAsset),
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+      ],
+      children: [
+        SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 12, 4, 0),
+                  child: GameTopBar(
+                    category: widget.category,
+                    difficulty: widget.difficulty,
+                    stats: widget.playerStats,
+                    onGoHome: () => Navigator.of(context).pop(),
                   ),
                 ),
-              ),
+                GameBoard(round: round),
+                Padding(
+                  padding: const EdgeInsets.only(right: 16),
+                  child: TipsContainer(
+                    key: ValueKey(round.challenge.answer),
+                    challenge: round.challenge,
+                    onHintUsed: onHintUsed,
+                  ),
+                ),
+                VirtualKeyboard(
+                  usedLetters: round.guessedLetters,
+                  enabled: !round.isFinished,
+                  onKeyPressed: onKeyPressed,
+                ),
+              ],
             ),
-            const StatusBarBackground(),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 }

@@ -1,4 +1,4 @@
-import 'package:aval1pmob/components/game/keyboard_key.dart';
+import 'package:aval1pmob/components/game/keyboard_row.dart';
 import 'package:flutter/material.dart';
 
 class VirtualKeyboard extends StatelessWidget {
@@ -38,28 +38,14 @@ class VirtualKeyboard extends StatelessWidget {
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: keyboardRows.map((rowKeys) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4.0),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: rowKeys.map((character) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: spacing / 2,
-                    ),
-                    child: SizedBox(
-                      width: keyWidth,
-                      height: keyHeight,
-                      child: KeyboardKey(
-                        character: character,
-                        active: enabled && !usedLetters.contains(character),
-                        onPressed: () => onKeyPressed(character),
-                      ),
-                    ),
-                  );
-                }).toList(),
-              ),
+            return KeyboardRow(
+              rowKeys: rowKeys,
+              keyWidth: keyWidth,
+              keyHeight: keyHeight,
+              usedLetters: usedLetters,
+              enabled: enabled,
+              onKeyPressed: onKeyPressed,
+              spacing: spacing,
             );
           }).toList(),
         );

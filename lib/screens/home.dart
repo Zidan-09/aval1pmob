@@ -1,7 +1,8 @@
-import 'package:aval1pmob/components/game/session_stats_dialog.dart';
+import 'package:aval1pmob/components/app/app_scaffold.dart';
+import 'package:aval1pmob/components/game/session_stats_variant.dart';
 import 'package:aval1pmob/components/game/stats_menu_button.dart';
+import 'package:aval1pmob/components/home/home_image_button.dart';
 import 'package:aval1pmob/components/home/setup_game_dialog.dart';
-import 'package:aval1pmob/components/status_bar_background.dart';
 import 'package:aval1pmob/entities/answer_category.dart';
 import 'package:aval1pmob/entities/difficulty.dart';
 import 'package:aval1pmob/entities/player_stats.dart';
@@ -9,7 +10,6 @@ import 'package:aval1pmob/screens/about.dart';
 import 'package:aval1pmob/screens/game.dart';
 import 'package:aval1pmob/services/word_challenge_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String backgroundAsset =
@@ -144,99 +144,66 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     final statusH = MediaQuery.paddingOf(context).top;
     final buttonWidth = (size.width * 0.68).clamp(200.0, 300.0);
 
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle.light,
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            Image.asset(HomeScreen.backgroundAsset, fit: BoxFit.cover),
-            const StatusBarBackground(),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(24, 0, 24, 80),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    InkWell(
-                      onTap: _onStartTap,
-                      borderRadius: BorderRadius.circular(24),
-                      child: ClipRect(
-                        child: Align(
-                          alignment: Alignment.center,
-                          heightFactor: 0.6,
-                          child: ScaleTransition(
-                            scale: _scale,
-                            child: Image.asset(
-                              HomeScreen.startButtonAsset,
-                              width: buttonWidth,
-                              fit: BoxFit.contain,
-                              semanticLabel: 'Começar',
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 0),
-                    InkWell(
-                      onTap: _onAboutTap,
-                      borderRadius: BorderRadius.circular(24),
-                      child: ScaleTransition(
-                        scale: _scaleAbout,
-                        child: ClipRect(
-                          child: Align(
-                            alignment: Alignment.center,
-                            heightFactor: 0.6,
-                            child: Image.asset(
-                              HomeScreen.aboutButtonAsset,
-                              width: buttonWidth,
-                              fit: BoxFit.contain,
-                              semanticLabel: 'Sobre',
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+    return AppScaffold(
+      backgrounds: [Image.asset(HomeScreen.backgroundAsset, fit: BoxFit.cover)],
+      children: [
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(24, 0, 24, 80),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                HomeImageButton(
+                  onTap: _onStartTap,
+                  scale: _scale,
+                  imageAsset: HomeScreen.startButtonAsset,
+                  width: buttonWidth,
+                  semanticLabel: 'Começar',
                 ),
-              ),
-            ),
-            Positioned(
-              top: statusH + 8,
-              right: 8,
-              child: StatsMenuButton(
-                stats: widget.playerStats,
-                variant: SessionStatsVariant.home,
-                borderRadius: BorderRadius.circular(12),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Image.asset(
-                      HomeScreen.statsButtonAsset,
-                      width: 68,
-                      height: 68,
-                      fit: BoxFit.contain,
-                      semanticLabel: 'Estatísticas',
-                    ),
-                    const SizedBox(height: 2),
-                    const Text(
-                      'Estatísticas',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
+                HomeImageButton(
+                  onTap: _onAboutTap,
+                  scale: _scaleAbout,
+                  imageAsset: HomeScreen.aboutButtonAsset,
+                  width: buttonWidth,
+                  semanticLabel: 'Sobre',
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
         ),
-      ),
+        Positioned(
+          top: statusH + 8,
+          right: 8,
+          child: StatsMenuButton(
+            stats: widget.playerStats,
+            variant: SessionStatsVariant.home,
+            borderRadius: BorderRadius.circular(12),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Image.asset(
+                  HomeScreen.statsButtonAsset,
+                  width: 68,
+                  height: 68,
+                  fit: BoxFit.contain,
+                  semanticLabel: 'Estatísticas',
+                ),
+                const SizedBox(height: 2),
+                const Text(
+                  'Estatísticas',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

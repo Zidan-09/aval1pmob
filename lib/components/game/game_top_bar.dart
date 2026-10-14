@@ -1,4 +1,5 @@
-import 'package:aval1pmob/components/game/session_stats_dialog.dart';
+import 'package:aval1pmob/components/game/game_top_bar_slot.dart';
+import 'package:aval1pmob/components/game/session_stats_variant.dart';
 import 'package:aval1pmob/components/game/stats_menu_button.dart';
 import 'package:aval1pmob/entities/answer_category.dart';
 import 'package:aval1pmob/entities/difficulty.dart';
@@ -32,25 +33,9 @@ class GameTopBar extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Flexible(
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(maxWidth: 130),
-                    child: _LabeledCard(
-                      title: 'Categoria',
-                      child: _InfoCard(label: category.labelPt),
-                    ),
-                  ),
-                ),
+                GameTopBarSlot(title: 'Categoria', label: category.labelPt),
                 const SizedBox(width: 8),
-                Flexible(
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(maxWidth: 130),
-                    child: _LabeledCard(
-                      title: 'Dificuldade',
-                      child: _InfoCard(label: difficulty.labelPt),
-                    ),
-                  ),
-                ),
+                GameTopBarSlot(title: 'Dificuldade', label: difficulty.labelPt),
               ],
             ),
           ),
@@ -73,66 +58,6 @@ class GameTopBar extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _LabeledCard extends StatelessWidget {
-  final String title;
-  final Widget child;
-
-  const _LabeledCard({required this.title, required this.child});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          title,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 12,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        const SizedBox(height: 4),
-        child,
-      ],
-    );
-  }
-}
-
-class _InfoCard extends StatelessWidget {
-  final String label;
-
-  const _InfoCard({required this.label});
-
-  @override
-  Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 788 / 317,
-      child: Container(
-        alignment: Alignment.center,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('lib/assets/images/buttons/panel.png'),
-            fit: BoxFit.fill,
-          ),
-        ),
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        child: Text(
-          label,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 13,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
       ),
     );
   }

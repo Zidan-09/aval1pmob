@@ -1,0 +1,1 @@
+enum SessionStatsVariant { home, inGame }

@@ -1,7 +1,6 @@
+import 'package:aval1pmob/entities/guess_outcome.dart';
 import 'package:aval1pmob/entities/word_challenge.dart';
 import 'package:aval1pmob/utils/text_normalizer.dart';
-
-enum GuessOutcome { hit, miss, repeated, invalid, finished }
 
 class GameRound {
   static const int maxErrors = 6;

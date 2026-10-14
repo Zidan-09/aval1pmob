@@ -75,7 +75,6 @@ class _TipsContainerState extends State<TipsContainer> {
               ),
             ),
           ),
-          const SizedBox(height: 0),
           const Text(
             'Dica',
             style: TextStyle(color: Colors.white, fontSize: 12),

@@ -1,5 +1,5 @@
-import 'package:aval1pmob/components/game/answer_display.dart';
-import 'package:aval1pmob/components/game/hangman_figure.dart';
+import 'package:aval1pmob/components/game/board/answer_display.dart';
+import 'package:aval1pmob/components/game/board/hangman_figure.dart';
 import 'package:aval1pmob/entities/game_round.dart';
 import 'package:flutter/material.dart';
 

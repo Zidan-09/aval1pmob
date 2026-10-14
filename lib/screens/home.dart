@@ -1,8 +1,8 @@
 import 'package:aval1pmob/components/app/app_scaffold.dart';
-import 'package:aval1pmob/components/game/session_stats_variant.dart';
-import 'package:aval1pmob/components/game/stats_menu_button.dart';
+import 'package:aval1pmob/components/game/stats/session_stats_variant.dart';
+import 'package:aval1pmob/components/game/stats/stats_menu_button.dart';
 import 'package:aval1pmob/components/home/home_image_button.dart';
-import 'package:aval1pmob/components/home/setup_game_dialog.dart';
+import 'package:aval1pmob/components/home/setup/setup_game_dialog.dart';
 import 'package:aval1pmob/entities/answer_category.dart';
 import 'package:aval1pmob/entities/difficulty.dart';
 import 'package:aval1pmob/entities/player_stats.dart';

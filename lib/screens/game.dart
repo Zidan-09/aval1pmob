@@ -1,10 +1,10 @@
 import 'package:aval1pmob/components/app/app_scaffold.dart';
-import 'package:aval1pmob/components/game/game_board.dart';
-import 'package:aval1pmob/components/game/game_top_bar.dart';
-import 'package:aval1pmob/components/game/jumpscare_overlay.dart';
-import 'package:aval1pmob/components/game/round_result_dialog.dart';
-import 'package:aval1pmob/components/game/tips_container.dart';
-import 'package:aval1pmob/components/game/virtual_keyboard.dart';
+import 'package:aval1pmob/components/game/board/game_board.dart';
+import 'package:aval1pmob/components/game/keyboard/virtual_keyboard.dart';
+import 'package:aval1pmob/components/game/result/jumpscare_overlay.dart';
+import 'package:aval1pmob/components/game/result/round_result_dialog.dart';
+import 'package:aval1pmob/components/game/tips/tips_container.dart';
+import 'package:aval1pmob/components/game/top_bar/game_top_bar.dart';
 import 'package:aval1pmob/entities/answer_category.dart';
 import 'package:aval1pmob/entities/difficulty.dart';
 import 'package:aval1pmob/entities/game_round.dart';

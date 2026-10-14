@@ -1,4 +1,4 @@
-import 'package:aval1pmob/components/game/answer_letter_tile.dart';
+import 'package:aval1pmob/components/game/board/answer_letter_tile.dart';
 import 'package:aval1pmob/entities/game_round.dart';
 import 'package:flutter/material.dart';
 

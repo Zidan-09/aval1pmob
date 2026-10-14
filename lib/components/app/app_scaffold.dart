@@ -1,4 +1,4 @@
-import 'package:aval1pmob/components/status_bar_background.dart';
+import 'package:aval1pmob/components/app/status_bar_background.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

@@ -1,6 +1,6 @@
-import 'package:aval1pmob/components/game/hangman_figure.dart';
-import 'package:aval1pmob/components/game/result_ghost_button.dart';
-import 'package:aval1pmob/components/game/result_metric.dart';
+import 'package:aval1pmob/components/game/board/hangman_figure.dart';
+import 'package:aval1pmob/components/game/result/result_ghost_button.dart';
+import 'package:aval1pmob/components/game/result/result_metric.dart';
 import 'package:flutter/material.dart';
 
 class RoundResultDialog extends StatelessWidget {

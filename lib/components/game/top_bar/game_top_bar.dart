@@ -1,6 +1,6 @@
-import 'package:aval1pmob/components/game/game_top_bar_slot.dart';
-import 'package:aval1pmob/components/game/session_stats_variant.dart';
-import 'package:aval1pmob/components/game/stats_menu_button.dart';
+import 'package:aval1pmob/components/game/stats/session_stats_variant.dart';
+import 'package:aval1pmob/components/game/stats/stats_menu_button.dart';
+import 'package:aval1pmob/components/game/top_bar/game_top_bar_slot.dart';
 import 'package:aval1pmob/entities/answer_category.dart';
 import 'package:aval1pmob/entities/difficulty.dart';
 import 'package:aval1pmob/entities/player_stats.dart';

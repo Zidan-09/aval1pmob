@@ -1,4 +1,4 @@
-import 'package:aval1pmob/components/game/keyboard_row.dart';
+import 'package:aval1pmob/components/game/keyboard/keyboard_row.dart';
 import 'package:flutter/material.dart';
 
 class VirtualKeyboard extends StatelessWidget {

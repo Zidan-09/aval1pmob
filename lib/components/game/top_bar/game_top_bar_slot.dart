@@ -1,5 +1,5 @@
-import 'package:aval1pmob/components/game/game_info_card.dart';
-import 'package:aval1pmob/components/game/game_labeled_card.dart';
+import 'package:aval1pmob/components/game/top_bar/game_info_card.dart';
+import 'package:aval1pmob/components/game/top_bar/game_labeled_card.dart';
 import 'package:flutter/material.dart';
 
 class GameTopBarSlot extends StatelessWidget {

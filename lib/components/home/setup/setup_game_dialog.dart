@@ -1,8 +1,8 @@
 import 'package:aval1pmob/components/dialog/popup_panel.dart';
 import 'package:aval1pmob/components/dialog/popup_style.dart';
 import 'package:aval1pmob/components/dialog/popup_title.dart';
-import 'package:aval1pmob/components/home/popup_choice_chip.dart';
-import 'package:aval1pmob/components/home/setup_section_label.dart';
+import 'package:aval1pmob/components/home/setup/popup_choice_chip.dart';
+import 'package:aval1pmob/components/home/setup/setup_section_label.dart';
 import 'package:aval1pmob/entities/answer_category.dart';
 import 'package:aval1pmob/entities/difficulty.dart';
 import 'package:aval1pmob/services/word_challenge_repository.dart';

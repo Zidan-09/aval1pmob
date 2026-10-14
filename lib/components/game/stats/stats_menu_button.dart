@@ -1,5 +1,5 @@
-import 'package:aval1pmob/components/game/session_stats_dialog.dart';
-import 'package:aval1pmob/components/game/session_stats_variant.dart';
+import 'package:aval1pmob/components/game/stats/session_stats_dialog.dart';
+import 'package:aval1pmob/components/game/stats/session_stats_variant.dart';
 import 'package:aval1pmob/entities/player_stats.dart';
 import 'package:flutter/material.dart';
 

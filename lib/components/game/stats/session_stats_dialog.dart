@@ -1,8 +1,8 @@
 import 'package:aval1pmob/components/dialog/popup_panel.dart';
 import 'package:aval1pmob/components/dialog/popup_style.dart';
 import 'package:aval1pmob/components/dialog/popup_title.dart';
-import 'package:aval1pmob/components/game/session_stat_row.dart';
-import 'package:aval1pmob/components/game/session_stats_variant.dart';
+import 'package:aval1pmob/components/game/stats/session_stat_row.dart';
+import 'package:aval1pmob/components/game/stats/session_stats_variant.dart';
 import 'package:aval1pmob/entities/player_stats.dart';
 import 'package:flutter/material.dart';
 

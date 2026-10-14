@@ -37,6 +37,7 @@ class _SetupGameDialogState extends State<SetupGameDialog> {
   List<Widget> _chipRows<T>({
     required List<T> items,
     required int perRow,
+    required double chipWidth,
     required Widget Function(T item) buildChip,
   }) {
     final rows = <Widget>[];
@@ -49,8 +50,12 @@ class _SetupGameDialogState extends State<SetupGameDialog> {
         Row(
           children: [
             for (var j = 0; j < slice.length; j++) ...[
-              if (j > 0) const SizedBox(width: 8),
-              Expanded(child: buildChip(slice[j])),
+              if (j > 0) const SizedBox(width: 1),
+              Expanded(
+                child: Center(
+                  child: SizedBox(width: chipWidth, child: buildChip(slice[j])),
+                ),
+              ),
             ],
           ],
         ),
@@ -106,7 +111,7 @@ class _SetupGameDialogState extends State<SetupGameDialog> {
                     'Nova partida',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 20,
+                      fontSize: 25,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -117,36 +122,48 @@ class _SetupGameDialogState extends State<SetupGameDialog> {
                   style: TextStyle(color: Colors.white54, fontSize: 14),
                 ),
                 const SizedBox(height: 8),
-                ..._chipRows<AnswerCategory>(
-                  items: categories,
-                  perRow: 2,
-                  buildChip: (category) {
-                    final isSelected = selectedCategory == category;
-                    return ChoiceChip(
-                      label: SizedBox(
-                        width: double.infinity,
-                        child: Text(
-                          category.labelPt,
-                          textAlign: TextAlign.center,
-                        ),
+                LayoutBuilder(
+                  builder: (context, constraints) {
+                    final chipWidth = ((constraints.maxWidth - 8) / 2).clamp(
+                      0.0,
+                      140.0,
+                    );
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: _chipRows<AnswerCategory>(
+                        items: categories,
+                        perRow: 2,
+                        chipWidth: chipWidth,
+                        buildChip: (category) {
+                          final isSelected = selectedCategory == category;
+                          return ChoiceChip(
+                            label: SizedBox(
+                              width: double.infinity,
+                              child: Text(
+                                category.labelPt,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            selected: isSelected,
+                            showCheckmark: false,
+                            backgroundColor: const Color(0xFF3A3A46),
+                            selectedColor: Colors.red,
+                            visualDensity: VisualDensity.compact,
+                            labelStyle: TextStyle(
+                              fontSize: 13,
+                              color: isSelected ? Colors.white : Colors.white70,
+                            ),
+                            shape: StadiumBorder(
+                              side: BorderSide(
+                                color: isSelected ? Colors.red : Colors.white24,
+                              ),
+                            ),
+                            onSelected: (_) {
+                              setState(() => selectedCategory = category);
+                            },
+                          );
+                        },
                       ),
-                      selected: isSelected,
-                      showCheckmark: false,
-                      visualDensity: VisualDensity.compact,
-                      backgroundColor: const Color(0xFF3A3A46),
-                      selectedColor: Colors.red,
-                      labelStyle: TextStyle(
-                        fontSize: 13,
-                        color: isSelected ? Colors.white : Colors.white70,
-                      ),
-                      shape: StadiumBorder(
-                        side: BorderSide(
-                          color: isSelected ? Colors.red : Colors.white24,
-                        ),
-                      ),
-                      onSelected: (_) {
-                        setState(() => selectedCategory = category);
-                      },
                     );
                   },
                 ),
@@ -156,36 +173,48 @@ class _SetupGameDialogState extends State<SetupGameDialog> {
                   style: TextStyle(color: Colors.white54, fontSize: 14),
                 ),
                 const SizedBox(height: 8),
-                ..._chipRows<Difficulty>(
-                  items: difficulties,
-                  perRow: 3,
-                  buildChip: (difficulty) {
-                    final isSelected = selectedDifficulty == difficulty;
-                    return ChoiceChip(
-                      label: SizedBox(
-                        width: double.infinity,
-                        child: Text(
-                          difficulty.labelPt,
-                          textAlign: TextAlign.center,
-                        ),
+                LayoutBuilder(
+                  builder: (context, constraints) {
+                    final chipWidth = ((constraints.maxWidth - 16) / 3).clamp(
+                      0.0,
+                      90.0,
+                    );
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: _chipRows<Difficulty>(
+                        items: difficulties,
+                        perRow: 3,
+                        chipWidth: chipWidth,
+                        buildChip: (difficulty) {
+                          final isSelected = selectedDifficulty == difficulty;
+                          return ChoiceChip(
+                            label: SizedBox(
+                              width: double.infinity,
+                              child: Text(
+                                difficulty.labelPt,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            selected: isSelected,
+                            showCheckmark: false,
+                            backgroundColor: const Color(0xFF3A3A46),
+                            selectedColor: Colors.red,
+                            visualDensity: VisualDensity.compact,
+                            labelStyle: TextStyle(
+                              fontSize: 13,
+                              color: isSelected ? Colors.white : Colors.white70,
+                            ),
+                            shape: StadiumBorder(
+                              side: BorderSide(
+                                color: isSelected ? Colors.red : Colors.white24,
+                              ),
+                            ),
+                            onSelected: (_) {
+                              setState(() => selectedDifficulty = difficulty);
+                            },
+                          );
+                        },
                       ),
-                      selected: isSelected,
-                      showCheckmark: false,
-                      visualDensity: VisualDensity.compact,
-                      backgroundColor: const Color(0xFF3A3A46),
-                      selectedColor: Colors.red,
-                      labelStyle: TextStyle(
-                        fontSize: 13,
-                        color: isSelected ? Colors.white : Colors.white70,
-                      ),
-                      shape: StadiumBorder(
-                        side: BorderSide(
-                          color: isSelected ? Colors.red : Colors.white24,
-                        ),
-                      ),
-                      onSelected: (_) {
-                        setState(() => selectedDifficulty = difficulty);
-                      },
                     );
                   },
                 ),
@@ -239,10 +268,13 @@ class _SetupGameDialogState extends State<SetupGameDialog> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    TextButton(
+                    ElevatedButton(
                       onPressed: () => Navigator.of(context).pop(),
-                      style: TextButton.styleFrom(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF3A3A46),
                         foregroundColor: Colors.white,
+                        shape: const StadiumBorder(),
+                        side: const BorderSide(color: Colors.white24),
                       ),
                       child: const Text('Cancelar'),
                     ),

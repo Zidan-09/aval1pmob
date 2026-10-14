@@ -53,7 +53,7 @@ class PopupStyle {
     final hInset = screen.width * (narrow ? 0.06 : 0.04);
     return PopupStyle(
       narrow: narrow,
-      sidePadding: narrow ? 52.0 : (screen.width * 0.10).clamp(36.0, 52.0),
+      sidePadding: narrow ? 52.0 : (screen.width * 0.15).clamp(36.0, 52.0),
       topPadding: narrow ? 36.0 : 56.0,
       bottomPadding: narrow ? 28.0 : 48.0,
       titleSize: narrow ? 20.0 : 25.0,

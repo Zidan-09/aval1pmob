@@ -1,4 +1,6 @@
+import 'package:aval1pmob/components/status_bar_background.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class TeamMember {
   final String name;
@@ -13,22 +15,22 @@ const String _charactersPath = 'lib/assets/images/characters';
 const List<TeamMember> teamMembers = [
   TeamMember(
     name: 'Samuel da Penha Nascimento',
-    role: 'Responsabilidade a definir',
+    role: 'Lógica do jogo e dados',
     imageAsset: '$_charactersPath/shadow-select.png',
   ),
   TeamMember(
     name: 'Gabriel Lima Silva Oliveira',
-    role: 'Responsabilidade a definir',
+    role: 'Telas e jogabilidade',
     imageAsset: '$_charactersPath/tails-select.png',
   ),
   TeamMember(
     name: 'Paulo Henrique Alves Vieira',
-    role: 'Responsabilidade a definir',
+    role: 'Popups e interface',
     imageAsset: '$_charactersPath/werehog-select.png',
   ),
   TeamMember(
     name: 'Erick Vieira da Silva Costa',
-    role: 'Responsabilidade a definir',
+    role: 'Regras de letras e tela Sobre',
     imageAsset: '$_charactersPath/sonic-select.png',
   ),
 ];
@@ -42,98 +44,109 @@ class AboutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          Image.asset(backgroundAsset, fit: BoxFit.cover),
-          Container(color: Colors.black.withValues(alpha: 0.6)),
-          SafeArea(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 8, top: 2),
-                    child: Material(
-                      color: Colors.black54,
-                      shape: const CircleBorder(),
-                      child: IconButton(
-                        icon: const Icon(Icons.arrow_back, color: Colors.white),
-                        tooltip: 'Voltar',
-                        onPressed: () => Navigator.of(context).pop(),
+      backgroundColor: Colors.black,
+      body: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.light,
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            Image.asset(backgroundAsset, fit: BoxFit.cover),
+            Container(color: Colors.black.withValues(alpha: 0.6)),
+            const StatusBarBackground(),
+            SafeArea(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 8, top: 2),
+                      child: Material(
+                        color: Colors.black54,
+                        shape: const CircleBorder(),
+                        child: IconButton(
+                          icon: const Icon(
+                            Icons.arrow_back,
+                            color: Colors.white,
+                          ),
+                          tooltip: 'Voltar',
+                          onPressed: () => Navigator.of(context).pop(),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Expanded(
-                  child: SingleChildScrollView(
-                    padding: const EdgeInsets.fromLTRB(16, 10, 16, 12),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Text(
-                          'SOBRE',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 4,
+                  Expanded(
+                    child: SingleChildScrollView(
+                      padding: const EdgeInsets.fromLTRB(16, 10, 16, 12),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Text(
+                            'SOBRE',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 4,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 2),
-                        const Text(
-                          'MEMBROS DA EQUIPE E INFORMAÇÕES TRABALHO',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.redAccent,
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1.5,
+                          const SizedBox(height: 2),
+                          const Text(
+                            'MEMBROS DA EQUIPE E INFORMAÇÕES TRABALHO',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.redAccent,
+                              fontSize: 13,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1.5,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 8),
-                        const Text(
-                          'Jogo da Forca inspirado no universo de Sonic.exe ',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.white70, fontSize: 13),
-                        ),
-                        const SizedBox(height: 12),
-                        ...teamMembers.map(
-                          (member) => Padding(
-                            padding: const EdgeInsets.only(bottom: 8),
-                            child: _MemberCard(member: member),
+                          const SizedBox(height: 8),
+                          const Text(
+                            'Jogo da Forca inspirado no universo de Sonic.exe ',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white70,
+                              fontSize: 13,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 4),
-                        const Text(
-                          'DESENVOLVIDO EM EQUIPE',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.white60,
-                            fontSize: 11,
-                            letterSpacing: 2,
+                          const SizedBox(height: 12),
+                          ...teamMembers.map(
+                            (member) => Padding(
+                              padding: const EdgeInsets.only(bottom: 8),
+                              child: _MemberCard(member: member),
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 2),
-                        const Text(
-                          'TECNOLOGIAS: FLUTTER • DART',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.white60,
-                            fontSize: 11,
-                            letterSpacing: 2,
+                          const SizedBox(height: 4),
+                          const Text(
+                            'DESENVOLVIDO EM EQUIPE',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white60,
+                              fontSize: 11,
+                              letterSpacing: 2,
+                            ),
                           ),
-                        ),
-                      ],
+                          const SizedBox(height: 2),
+                          const Text(
+                            'TECNOLOGIAS: FLUTTER • DART',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white60,
+                              fontSize: 11,
+                              letterSpacing: 2,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

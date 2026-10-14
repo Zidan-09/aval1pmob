@@ -57,7 +57,7 @@ class GameTopBar extends StatelessWidget {
           Align(
             alignment: Alignment.centerRight,
             child: Padding(
-              padding: const EdgeInsets.only(bottom: 2),
+              padding: const EdgeInsets.only(top: 23),
               child: StatsMenuButton(
                 stats: stats,
                 variant: SessionStatsVariant.inGame,

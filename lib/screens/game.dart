@@ -1,3 +1,4 @@
+import 'package:aval1pmob/components/status_bar_background.dart';
 import 'package:aval1pmob/components/game/answer_display.dart';
 import 'package:aval1pmob/components/game/game_top_bar.dart';
 import 'package:aval1pmob/components/game/hangman_figure.dart';
@@ -10,6 +11,7 @@ import 'package:aval1pmob/entities/player_stats.dart';
 import 'package:aval1pmob/screens/home.dart';
 import 'package:aval1pmob/services/word_challenge_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:aval1pmob/components/game/round_result_dialog.dart';
 
 class GameScreen extends StatefulWidget {
@@ -199,69 +201,79 @@ class _GameScreenState extends State<GameScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(GameScreen.backgroundAsset),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 12, 4, 0),
-                  child: GameTopBar(
-                    category: widget.category,
-                    difficulty: widget.difficulty,
-                    stats: widget.playerStats,
-                    onGoHome: () => Navigator.of(context).pop(),
-                  ),
+      backgroundColor: Colors.black,
+      body: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.light,
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            Container(
+              width: double.infinity,
+              height: double.infinity,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(GameScreen.backgroundAsset),
+                  fit: BoxFit.cover,
                 ),
-                Expanded(
-                  child: Center(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          HangmanFigure(errors: round.errors, size: 320),
-                          const SizedBox(height: 8),
-                          Text(
-                            'Erros: ${round.errors}/${GameRound.maxErrors}',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
+              ),
+              child: SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(16, 12, 4, 0),
+                        child: GameTopBar(
+                          category: widget.category,
+                          difficulty: widget.difficulty,
+                          stats: widget.playerStats,
+                          onGoHome: () => Navigator.of(context).pop(),
+                        ),
+                      ),
+                      Expanded(
+                        child: Center(
+                          child: SingleChildScrollView(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                HangmanFigure(errors: round.errors, size: 320),
+                                const SizedBox(height: 8),
+                                Text(
+                                  'Erros: ${round.errors}/${GameRound.maxErrors}',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 12),
+                                AnswerDisplay(round: round),
+                              ],
                             ),
                           ),
-                          const SizedBox(height: 12),
-                          AnswerDisplay(round: round),
-                        ],
+                        ),
                       ),
-                    ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 16),
+                        child: TipsContainer(
+                          key: ValueKey(round.challenge.answer),
+                          challenge: round.challenge,
+                          onHintUsed: onHintUsed,
+                        ),
+                      ),
+                      VirtualKeyboard(
+                        usedLetters: round.guessedLetters,
+                        enabled: !round.isFinished,
+                        onKeyPressed: onKeyPressed,
+                      ),
+                    ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 16),
-                  child: TipsContainer(
-                    key: ValueKey(round.challenge.answer),
-                    challenge: round.challenge,
-                    onHintUsed: onHintUsed,
-                  ),
-                ),
-                VirtualKeyboard(
-                  usedLetters: round.guessedLetters,
-                  enabled: !round.isFinished,
-                  onKeyPressed: onKeyPressed,
-                ),
-              ],
+              ),
             ),
-          ),
+            const StatusBarBackground(),
+          ],
         ),
       ),
     );

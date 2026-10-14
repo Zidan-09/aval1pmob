@@ -7,6 +7,7 @@ import 'package:aval1pmob/entities/player_stats.dart';
 import 'package:aval1pmob/screens/about.dart';
 import 'package:aval1pmob/screens/game.dart';
 import 'package:aval1pmob/services/word_challenge_repository.dart';
+import 'package:aval1pmob/components/status_bar_background.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -151,12 +152,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           fit: StackFit.expand,
           children: [
             Image.asset(HomeScreen.backgroundAsset, fit: BoxFit.cover),
-            Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              child: Container(height: statusH, color: Colors.black),
-            ),
+            const StatusBarBackground(),
             Align(
               alignment: Alignment.bottomCenter,
               child: Padding(

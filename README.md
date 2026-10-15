@@ -1,11 +1,11 @@
-# Jogo da Forca do Sonic.exe
-
 ## Integrantes
 
 - Paulo Henrique Alves Vieira
 - Samuel da Penha Nascimento
 - Gabriel Lima Silva Oliveira
 - Erick Vieira da Silva Costa
+
+# Jogo da Forca do Sonic.exe
 
 ## Breve descrição
 
@@ -88,7 +88,7 @@ flutter doctor
 
 ### 1. Obter o projeto
 
-Clone o repositório (substitua pela URL real do seu repositório):
+Clone o repositório:
 
 ```bash
 git clone https://github.com/Zidan-09/hangman_game.git

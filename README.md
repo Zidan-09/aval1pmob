@@ -1,11 +1,11 @@
-# Jogo da Forca do Sonic.exe
-
 ## Integrantes
 
 - Paulo Henrique Alves Vieira
 - Samuel da Penha Nascimento
 - Gabriel Lima Silva Oliveira
 - Erick Vieira da Silva Costa
+
+# Jogo da Forca do Sonic.exe
 
 ## Breve descrição
 
@@ -88,7 +88,7 @@ flutter doctor
 
 ### 1. Obter o projeto
 
-Clone o repositório (substitua pela URL real do seu repositório):
+Clone o repositório:
 
 ```bash
 git clone https://github.com/Zidan-09/hangman_game.git
@@ -122,32 +122,6 @@ Para rodar em dispositivo específico:
 ```bash
 flutter run -d chrome
 flutter run -d android
-```
-
-### 4. Outros comandos úteis
-
-Analisar o código:
-
-```bash
-flutter analyze
-```
-
-Rodar testes (se houver):
-
-```bash
-flutter test
-```
-
-Gerar build de release (exemplo Android APK):
-
-```bash
-flutter build apk --release
-```
-
-Gerar ícones do launcher (configurado em `pubspec.yaml` via `flutter_launcher_icons`):
-
-```bash
-dart run flutter_launcher_icons
 ```
 
 ### Estrutura resumida

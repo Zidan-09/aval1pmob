@@ -9,29 +9,43 @@ class AnswerDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final answer = round.challenge.answer;
-    final rows = <Widget>[];
-    var index = 0;
-    for (final word in answer.split(' ')) {
-      final tiles = <Widget>[];
-      for (var i = 0; i < word.length; i++) {
-        tiles.add(
-          AnswerLetterTile(
-            character: round.displayCharAt(index),
-            revealed: round.isRevealed(index),
-            structural: round.isStructural(index),
-          ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final answer = round.challenge.answer;
+        final maxWidth = constraints.maxWidth;
+        final rows = <Widget>[];
+        var index = 0;
+        for (final word in answer.split(' ')) {
+          final tiles = <Widget>[];
+          for (var i = 0; i < word.length; i++) {
+            if (i > 0) tiles.add(const SizedBox(width: 6));
+            tiles.add(
+              AnswerLetterTile(
+                character: round.displayCharAt(index),
+                revealed: round.isRevealed(index),
+                structural: round.isStructural(index),
+              ),
+            );
+            index++;
+          }
+          rows.add(
+            SizedBox(
+              width: maxWidth,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Row(mainAxisSize: MainAxisSize.min, children: tiles),
+              ),
+            ),
+          );
+          index++;
+        }
+        return Wrap(
+          alignment: WrapAlignment.center,
+          spacing: 20,
+          runSpacing: 12,
+          children: rows,
         );
-        index++;
-      }
-      rows.add(Wrap(spacing: 6, runSpacing: 8, children: tiles));
-      index++;
-    }
-    return Wrap(
-      alignment: WrapAlignment.center,
-      spacing: 20,
-      runSpacing: 12,
-      children: rows,
+      },
     );
   }
 }

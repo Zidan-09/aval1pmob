@@ -10,13 +10,17 @@ class GameBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final figureSize = (MediaQuery.sizeOf(context).height * 0.32).clamp(
+      180.0,
+      320.0,
+    );
     return Expanded(
       child: Center(
         child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              HangmanFigure(errors: round.errors, size: 320),
+              HangmanFigure(errors: round.errors, size: figureSize),
               const SizedBox(height: 8),
               Text(
                 'Erros: ${round.errors}/${GameRound.maxErrors}',

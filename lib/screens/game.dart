@@ -43,13 +43,29 @@ class _GameScreenState extends State<GameScreen> {
   late GameRound round;
   bool hintUsed = false;
   bool countedEnd = false;
+  bool loadFailed = false;
 
   @override
   void initState() {
     super.initState();
-    round = GameRound(
-      challenge: widget.repository.draw(widget.category, widget.difficulty),
-    );
+    try {
+      round = GameRound(
+        challenge: widget.repository.draw(widget.category, widget.difficulty),
+      );
+    } on NoAnswersAvailableException {
+      loadFailed = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'Todas as respostas dessa combinação já foram usadas.',
+            ),
+          ),
+        );
+        Navigator.of(context).pop();
+      });
+    }
   }
 
   @override
@@ -190,6 +206,25 @@ class _GameScreenState extends State<GameScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (loadFailed) {
+      return AppScaffold(
+        backgrounds: [
+          Container(
+            width: double.infinity,
+            height: double.infinity,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(GameScreen.backgroundAsset),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        ],
+        children: const [
+          SafeArea(child: Center(child: CircularProgressIndicator())),
+        ],
+      );
+    }
     return AppScaffold(
       backgrounds: [
         Container(

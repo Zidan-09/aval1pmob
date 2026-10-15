@@ -124,32 +124,6 @@ flutter run -d chrome
 flutter run -d android
 ```
 
-### 4. Outros comandos úteis
-
-Analisar o código:
-
-```bash
-flutter analyze
-```
-
-Rodar testes (se houver):
-
-```bash
-flutter test
-```
-
-Gerar build de release (exemplo Android APK):
-
-```bash
-flutter build apk --release
-```
-
-Gerar ícones do launcher (configurado em `pubspec.yaml` via `flutter_launcher_icons`):
-
-```bash
-dart run flutter_launcher_icons
-```
-
 ### Estrutura resumida
 
 ```
